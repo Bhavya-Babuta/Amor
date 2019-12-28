@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 import reducer from "./reducers";
 import TabNav from "./src/components/navigation/TabNav";
+import * as Font from "expo-font";
 
 const store = createStore(reducer);
 Amplify.configure({
