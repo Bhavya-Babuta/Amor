@@ -1,0 +1,20 @@
+{
+  "name": "ecommerce-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "dependencies": {
+    "papaparse": "^5.0.2",
+    "pg": "^7.12.1"
+  },
+  "devDependencies": {
+    "serverless-offline": "^5.10.1",
+    "serverless-dotenv-plugin": "^2.1.1"
+  },
+  "scripts": {
+    "deploy": "sls deploy --env dev",
+    "start": "sls offline start --env dev"
+  },
+  "author": "",
+  "license": "ISC"
+}
