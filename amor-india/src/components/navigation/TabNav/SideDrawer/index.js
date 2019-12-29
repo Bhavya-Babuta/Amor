@@ -30,7 +30,7 @@ const SideDrawer = createDrawerNavigator(
     contentComponent: props => (
       <SafeAreaView
         style={{
-          alignItems: "left",
+          alignItems: "center",
           marginTop: Platform.OS === "android" ? 30 : 0,
           flex: 1
         }}

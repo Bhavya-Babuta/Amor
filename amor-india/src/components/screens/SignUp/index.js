@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { Auth } from "aws-amplify";
 import styles from "./styles";
+import defaultStyles from "../../../../styles";
 
 class SignUp extends Component {
   constructor(props) {
@@ -74,18 +75,8 @@ class SignUp extends Component {
     const { password, cPassword, email, firstName, lastName } = this.state;
     return (
       <SafeAreaView style={styles.container}>
-        <View
-          style={{
-            flex: 1,
-            alignSelf: "flex-start",
-            marginTop: 70,
-            marginLeft: 40,
-            marginBottom: 18
-          }}
-        >
-          <Text style={{ fontSize: 70, color: "white", fontWeight: "200" }}>
-            Signup
-          </Text>
+        <View style={styles.mainTextContainer}>
+          <Text style={styles.mainText}>Signup</Text>
         </View>
         <View style={styles.inputView}>
           <TextInput

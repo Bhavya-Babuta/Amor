@@ -1,12 +1,11 @@
-import { StyleSheet, Dimensions, Platform } from "react-native";
+import { StyleSheet, Dimensions, Platform, StatusBar } from "react-native";
 const width = Dimensions.get("window").width;
 const STATUSBAR_HEIGHT = Platform.OS === "ios" ? 20 : StatusBar.currentHeight;
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    marginTop:
-      Platform.OS === "android" ? StatusBar.currentHeight : -STATUSBAR_HEIGHT,
+    marginTop: Platform.OS === "android" ? 0 : -STATUSBAR_HEIGHT,
     backgroundColor: "#ffffff"
   },
   buttons: {
@@ -44,7 +43,7 @@ export default StyleSheet.create({
     borderWidth: 0.5,
     marginBottom: 15,
     borderRadius: 5,
-    fontFamily: "Avenir-BookOblique",
+    fontFamily: "AvenirNext-Medium",
     fontSize: 20
   },
   saveButton: {

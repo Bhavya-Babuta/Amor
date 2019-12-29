@@ -1,5 +1,7 @@
 import { StyleSheet, Dimensions, Platform } from "react-native";
 const width = Dimensions.get("window").width;
+import { normalize } from "../../../../helper";
+import defaultStyles from "../../../../styles";
 
 export default StyleSheet.create({
   background: {
@@ -13,7 +15,7 @@ export default StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "space-around",
-    marginTop: Platform.OS === "android" ? 30 : 0,
+    marginTop: Platform.OS === "android" ? 0 : 0,
     backgroundColor: "#000000"
   },
   logo: {
@@ -21,27 +23,27 @@ export default StyleSheet.create({
     height: 150
   },
   inputView: {
-    flex: 7
+    flex: 5
   },
   email: {
     backgroundColor: "white",
     width: width * 0.8,
-    padding: 15,
+    padding: Platform.OS === "android" ? 8 : 15,
     borderWidth: 0.5,
     marginBottom: 20,
     borderRadius: 5,
     fontFamily: "AvenirNext-Medium",
-    fontSize: 15
+    fontSize: normalize(10)
   },
   password: {
     backgroundColor: "white",
     width: width * 0.8,
-    padding: 15,
+    padding: Platform.OS === "android" ? 8 : 15,
     borderWidth: 0.5,
     borderRadius: 5,
     // opacity:0.3,
     fontFamily: "AvenirNext-Medium",
-    fontSize: 15
+    fontSize: normalize(10)
   },
   buttons: {
     flex: 1,
@@ -86,7 +88,9 @@ export default StyleSheet.create({
   newAccountButtonText: {
     textAlign: "center",
     color: "#ffffff",
-    fontSize: 18,
+    fontSize: normalize(15),
     textDecorationColor: "white"
-  }
+  },
+  mainText: defaultStyles.mainText,
+  mainTextContainer: defaultStyles.mainTextContainer
 });

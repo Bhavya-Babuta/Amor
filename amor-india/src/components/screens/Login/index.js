@@ -58,18 +58,8 @@ class Login extends Component {
     this.isUserLoggedIn();
     return (
       <SafeAreaView style={styles.container}>
-        <View
-          style={{
-            flex: 1,
-            alignSelf: "flex-start",
-            marginTop: 70,
-            marginLeft: 40,
-            marginBottom: 50
-          }}
-        >
-          <Text style={{ fontSize: 70, color: "white", fontWeight: "200" }}>
-            Login
-          </Text>
+        <View style={styles.mainTextContainer}>
+          <Text style={styles.mainText}>Login</Text>
         </View>
         <View style={styles.inputView}>
           <TextInput

@@ -13,6 +13,7 @@ import Swiper from "react-native-swiper";
 import SearchBarComponent from "../SearchBarComponent";
 import GeneralStatusBarColor from "../../components/GeneralStatusBarColor/GeneralStatusBarColor";
 import axios from "axios";
+import { normalize } from "react-native-elements";
 const uuid = require("uuid/v4");
 
 class Home extends Component {
@@ -113,7 +114,7 @@ class Home extends Component {
           </View>
           <SearchBarComponent />
           <View style={styles.wrapper}>
-            <Swiper
+            {/* <Swiper
               showsButtons={false}
               autoplay={true}
               paginationStyle={{ marginTop: 100 }}
@@ -136,7 +137,7 @@ class Home extends Component {
                   source={require("../../../../assets/images/amor-jeans.jpg")}
                 ></Image>
               </View>
-            </Swiper>
+            </Swiper> */}
           </View>
           <Text style={styles.topText}>Browse by Categories</Text>
           <FlatList
@@ -148,7 +149,7 @@ class Home extends Component {
                   style={{
                     padding: 18,
                     alignSelf: "center",
-                    fontSize: 15,
+                    fontSize: normalize(9),
                     fontWeight: "500"
                   }}
                   key={uuid()}
@@ -183,24 +184,8 @@ class Home extends Component {
                       height: 70
                     }}
                   >
-                    <Text
-                      style={{
-                        alignSelf: "center",
-                        marginTop: "8%",
-                        fontSize: 18,
-                        fontWeight: "500"
-                      }}
-                    >
-                      {item.name}
-                    </Text>
-                    <Text
-                      style={{
-                        alignSelf: "center",
-                        fontSize: 15,
-                        fontWeight: "bold",
-                        marginTop: "4%"
-                      }}
-                    >
+                    <Text style={styles.nameText}>{item.name}</Text>
+                    <Text style={styles.priceText}>
                       {`${`\u20B9`}${item.price}`}
                     </Text>
                   </View>

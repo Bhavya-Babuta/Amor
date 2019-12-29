@@ -1,5 +1,7 @@
 import { StyleSheet, Platform, Dimensions } from "react-native";
 const width = Dimensions.get("window").width;
+import defaultStyles from "../../../../styles";
+import { normalize } from "../../../../helper";
 
 export default StyleSheet.create({
   background: {
@@ -13,7 +15,7 @@ export default StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "space-around",
-    marginTop: Platform.OS === "android" ? 30 : 0,
+    marginTop: Platform.OS === "android" ? 0 : 0,
     backgroundColor: "#000000"
   },
   inputView: {
@@ -22,7 +24,7 @@ export default StyleSheet.create({
   inputField: {
     backgroundColor: "#ffffff",
     width: width * 0.8,
-    padding: 15,
+    padding: Platform.OS === "android" ? 8 : 15,
     borderWidth: 0.5,
     marginBottom: 15,
     borderRadius: 5
@@ -42,7 +44,11 @@ export default StyleSheet.create({
     borderColor: "#ffffff",
     borderWidth: 2
   },
-  buttonText: { textAlign: "center", fontSize: 20, color: "#ffffff" },
+  buttonText: {
+    textAlign: "center",
+    fontSize: normalize(20),
+    color: "#ffffff"
+  },
   borderStyleBase: {
     width: 30,
     height: 45
@@ -72,5 +78,7 @@ export default StyleSheet.create({
   },
   resendConfirmationCodeButton: {
     marginTop: 70
-  }
+  },
+  mainText: defaultStyles.mainText,
+  mainTextContainer: defaultStyles.mainTextContainer
 });

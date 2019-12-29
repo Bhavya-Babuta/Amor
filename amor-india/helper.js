@@ -5,6 +5,18 @@ var s3 = new AWS.S3({
   secretAccessKey: "QDVGqJnPlkaJomRjY48a7BHmB9adLmb1gPpSAbKn",
   region: "ap-south-1"
 });
+import { PixelRatio, Platform, Dimensions } from "react-native";
+const WIDTH = Dimensions.get("window").width;
+
+export function normalize(size) {
+  const scale = WIDTH / 300;
+  const newSize = size * scale;
+  if (Platform.OS === "ios") {
+    return Math.round(PixelRatio.roundToNearestPixel(newSize));
+  } else {
+    return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2;
+  }
+}
 
 export const getSearchString = obj => {
   const parts = [];

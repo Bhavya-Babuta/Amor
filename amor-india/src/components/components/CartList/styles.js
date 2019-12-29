@@ -1,6 +1,6 @@
 import { StyleSheet, Dimensions, Platform } from "react-native";
 const width = Dimensions.get("window").width;
-
+import { normalize } from "../../../../helper";
 export default StyleSheet.create({
   listItem: {
     // maxWidth: Dimensions.get("window").width,
@@ -18,7 +18,6 @@ export default StyleSheet.create({
     height: "70%",
     marginTop: "8%"
   },
-  title: { fontSize: 10 },
   productName: { fontSize: 15, alignSelf: "center", marginTop: 5 },
   updateStack: {
     flexDirection: "row",
@@ -38,13 +37,13 @@ export default StyleSheet.create({
   quantityText: {
     alignSelf: "center",
     marginTop: 10,
-    fontSize: 12,
+    fontSize: normalize(8),
     fontWeight: "500"
   },
   updateButtonText: {
-    fontSize: 20,
+    fontSize: normalize(15),
     alignSelf: "center",
-    marginTop: "15%",
+    marginTop: 3,
     fontWeight: "100"
   }
 });

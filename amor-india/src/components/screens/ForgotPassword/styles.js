@@ -13,7 +13,7 @@ export default StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "space-around",
-    marginTop: Platform.OS === "android" ? 30 : 0,
+    marginTop: Platform.OS === "android" ? 0 : 0,
     backgroundColor: "#000000"
   },
   logo: {
@@ -27,7 +27,7 @@ export default StyleSheet.create({
   email: {
     backgroundColor: "#ffffff",
     width: width * 0.8,
-    padding: 15,
+    padding: Platform.OS === "android" ? 8 : 15,
     borderWidth: 0.5,
     marginBottom: 15,
     borderRadius: 5

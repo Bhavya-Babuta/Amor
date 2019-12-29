@@ -53,9 +53,9 @@ class Profile extends Component {
         >
           <View>
             <View>
-              <Text>Name</Text>
+              <Text style={{ fontSize: 16 }}>Name</Text>
               <TextInput
-                keyboardType="email-address"
+                keyboardType="text"
                 value={name}
                 onChangeText={this.setEmail}
                 style={styles.textField}

@@ -52,11 +52,12 @@ class App extends React.Component {
   constructor(props) {
     super(props);
   }
-  componentDidMount() {
-    Font.loadAsync({
+  async componentWillMount() {
+    await Font.loadAsync({
       "AvenirNext-Medium": require("./assets/fonts/AvenirNext-Medium.ttf")
     });
   }
+
   render() {
     return (
       <Provider store={store}>

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/FontAwesome";
 import CartList from "../../components/CartList";
 import styles from "./styles";
-
+import { normalize } from "../../../../helper";
 class Cart extends Component {
   constructor(props) {
     super(props);
@@ -16,7 +16,17 @@ class Cart extends Component {
   }
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: () => <Text style={{ fontSize: 20 }}>Shopping Cart</Text>,
+      headerTitle: () => (
+        <Text
+          style={{
+            fontSize: normalize(20),
+            textAlign: "center",
+            alignSelf: "center"
+          }}
+        >
+          Shopping Cart
+        </Text>
+      ),
       headerRight: () => (
         <TouchableOpacity>
           <Icon

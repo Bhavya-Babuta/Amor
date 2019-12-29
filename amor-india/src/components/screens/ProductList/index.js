@@ -6,79 +6,181 @@ import {
   SafeAreaView,
   FlatList,
   Dimensions,
-  Image
+  Image,
+  Button,
+  Platform,
+  StatusBar
 } from "react-native";
 import SearchBarComponent from "../../screens/SearchBarComponent";
 import GeneralStatusBarColor from "../../components/GeneralStatusBarColor/GeneralStatusBarColor";
+import { TouchableOpacity } from "react-native-gesture-handler";
 const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
+
 const STATUSBAR_HEIGHT = Platform.OS === "ios" ? 20 : StatusBar.currentHeight;
 
-const height = Dimensions.get("window").height;
 const data = [
   {
     id: 1,
-    name: "Product A",
-    img: require("../../../../assets/images/temp/FormalCasualShirts/edited.jpg")
+    product_name: "Product A",
+    img: require("../../../../assets/images/temp/LongDresses/3.jpg"),
+    product_color: "Black",
+    price: 240,
+    availableSizes: ["S", "M", "L"]
   },
   {
-    id: 1,
-    name: "Product A",
-    img: require("../../../../assets/images/temp/FormalCasualShirts/edited.jpg")
+    id: 2,
+    product_name: "Product A",
+    img: require("../../../../assets/images/temp/FormalCasualShirts/edited35.jpg"),
+    product_color: "Black",
+    price: 330,
+    availableSizes: ["S", "M", "L"]
   },
   {
-    id: 1,
-    name: "Product A",
-    img: require("../../../../assets/images/temp/FormalCasualShirts/edited.jpg")
+    id: 3,
+    product_name: "Product A",
+    img: require("../../../../assets/images/temp/FormalCasualShirts/edited44.jpg"),
+    product_color: "Black",
+    price: 242,
+    availableSizes: ["S", "M", "L"]
   },
   {
-    id: 1,
-    name: "Product A",
-    img: require("../../../../assets/images/temp/FormalCasualShirts/edited.jpg")
+    id: 4,
+    product_name: "Product A",
+    img: require("../../../../assets/images/temp/FormalCasualShirts/edited74.jpg"),
+    product_color: "Black",
+    price: 100,
+    availableSizes: ["S", "M", "L"]
   },
   {
-    id: 1,
-    name: "Product A",
-    img: require("../../../../assets/images/temp/FormalCasualShirts/edited.jpg")
+    id: 5,
+    product_name: "Product A",
+    img: require("../../../../assets/images/temp/FormalCasualShirts/edited.jpg"),
+    product_color: "Black",
+    price: 390,
+    availableSizes: ["S", "M", "L"]
   },
   {
-    id: 1,
-    name: "Product A",
-    img: require("../../../../assets/images/temp/FormalCasualShirts/edited.jpg")
+    id: 6,
+    product_name: "Product A",
+    img: require("../../../../assets/images/temp/FormalCasualShirts/edited.jpg"),
+    product_color: "Black",
+    price: 260,
+    availableSizes: ["S", "M", "L"]
   },
   {
-    id: 1,
-    name: "Product A",
-    img: require("../../../../assets/images/temp/FormalCasualShirts/edited.jpg")
+    id: 7,
+    product_name: "Product A",
+    img: require("../../../../assets/images/temp/FormalCasualShirts/edited.jpg"),
+    product_color: "Black",
+    price: 240,
+    availableSizes: ["S", "M", "L"]
   },
   {
-    id: 1,
-    name: "Product A",
-    img: require("../../../../assets/images/temp/FormalCasualShirts/edited.jpg")
+    id: 8,
+    product_name: "Product A",
+    img: require("../../../../assets/images/temp/FormalCasualShirts/edited.jpg"),
+    product_color: "Black",
+    price: 240,
+    availableSizes: ["S", "M", "L"]
   },
   {
-    id: 1,
-    name: "Product A",
-    img: require("../../../../assets/images/temp/FormalCasualShirts/edited.jpg")
+    id: 9,
+    product_name: "Product A",
+    img: require("../../../../assets/images/temp/FormalCasualShirts/edited.jpg"),
+    product_color: "Black",
+    price: 240,
+    availableSizes: ["S", "M", "L"]
   },
   {
-    id: 1,
-    name: "Product A",
-    img: require("../../../../assets/images/temp/FormalCasualShirts/edited.jpg")
+    id: 10,
+    product_name: "Product A",
+    img: require("../../../../assets/images/temp/FormalCasualShirts/edited.jpg"),
+    product_color: "Black",
+    price: 240,
+    availableSizes: ["S", "M", "L"]
   },
   {
-    id: 1,
-    name: "Product A",
-    img: require("../../../../assets/images/temp/FormalCasualShirts/edited.jpg")
+    id: 11,
+    product_name: "Product A",
+    img: require("../../../../assets/images/temp/FormalCasualShirts/edited.jpg"),
+    product_color: "Black",
+    price: 320,
+    availableSizes: ["S", "M", "L"]
   }
 ];
 class ProductList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      products: null
+      products: null,
+      viewType: "ListView",
+      noColumns: 1
     };
   }
+
+  getSizeString = sizeList => {
+    let sizeString = "";
+    console.log("Size List: ", sizeList);
+    sizeList.forEach(element => {
+      if (element === "S") {
+        sizeString = sizeString + "S, ";
+      } else if (element === "M") {
+        sizeString = sizeString + "M, ";
+      } else {
+        sizeString = sizeString + "L";
+      }
+    });
+    console.log("Size String: ", sizeString);
+    return sizeString;
+  };
+
+  Item({ id, src, name, color, price, sizeString }) {
+    return (
+      <TouchableOpacity
+        style={styles.productContainer}
+        onPress={() => this.props.navigation.navigate("ProductPage", { id })}
+      >
+        <View>
+          <Image
+            source={src}
+            style={{ resizeMode: "stretch", width: 150, height: "100%" }}
+          ></Image>
+        </View>
+        <View style={{ flexDirection: "column", flex: 1 }}>
+          <Text
+            style={{
+              alignSelf: "flex-start",
+              marginTop: "10%",
+              marginLeft: 25,
+              fontSize: 25,
+              fontWeight: "500"
+            }}
+          >
+            {name}
+          </Text>
+          <Text
+            style={{ marginLeft: 25, marginTop: 6, fontSize: 20 }}
+          >{`${color}`}</Text>
+          <Text
+            style={{ marginLeft: 25, marginTop: 9, fontSize: 20 }}
+          >{`Available sizes: ${sizeString}`}</Text>
+          <Text
+            style={{
+              alignSelf: "flex-start",
+              marginTop: "20%",
+              marginLeft: 25,
+              fontSize: 20,
+              fontWeight: "600"
+            }}
+          >{`${`\u20B9`}${price}`}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+
   render() {
+    const { noColumns } = this.state;
     return (
       <SafeAreaView style={styles.container}>
         <GeneralStatusBarColor
@@ -86,18 +188,45 @@ class ProductList extends Component {
           barStyle="light-content"
         />
         <SearchBarComponent />
+        <View style={styles.filterBar}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignSelf: "flex-end",
+              borderRadius: 10,
+              borderWidth: 1
+            }}
+          >
+            <Button title="Filter By" style={[styles.viewButonStyles]} />
+            <Button
+              title="GridView"
+              style={[styles.viewButonStyles]}
+              onPress={() => {
+                this.setState({ noColumns: 2 });
+              }}
+            />
+            <Button title="ListView" style={[styles.viewButonStyles]} />
+          </View>
+        </View>
         <View>
           <FlatList
             data={data}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <View style={styles.productContainer}>
-                <View>
-                  <Image source={item.img} style={{ width }}></Image>
-                </View>
-                <Text>{item.name}</Text>
-              </View>
-            )}
+            numColumns={noColumns}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => {
+              const sizeString = this.getSizeString(item.availableSizes);
+              return (
+                <this.Item
+                  id={item.id}
+                  src={item.img}
+                  name={item.product_name}
+                  color={item.product_color}
+                  price={item.price}
+                  sizeString={sizeString}
+                ></this.Item>
+              );
+            }}
           ></FlatList>
         </View>
       </SafeAreaView>
@@ -109,15 +238,25 @@ export default ProductList;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop:
-      Platform.OS === "android" ? StatusBar.currentHeight : -STATUSBAR_HEIGHT,
+    marginTop: Platform.OS === "android" ? 0 : -STATUSBAR_HEIGHT,
     backgroundColor: "#ffffff"
   },
   productContainer: {
-    height: height * 0.25,
+    height: height * 0.3,
     alignSelf: "center",
-    borderWidth: 4,
+    borderWidth: 0.5,
+    borderColor: "black",
     width,
-    alignContent: "center"
-  }
+    alignContent: "center",
+    flexDirection: "row",
+    borderColor: "#CDCDCD"
+  },
+  viewButonStyles: {
+    borderColor: "black",
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingTop: 10,
+    paddingBottom: 10
+  },
+  filterBar: { padding: 2, flexDirection: "column", borderWidth: 4 }
 });
