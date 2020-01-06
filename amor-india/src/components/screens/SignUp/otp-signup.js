@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import {
   SafeAreaView,
   View,
-  ImageBackground,
+  KeyboardAvoidingView,
   TouchableOpacity,
   Text
 } from "react-native";
@@ -22,18 +22,18 @@ class OtpSignup extends Component {
   render() {
     const { username } = this.state;
     return (
-      <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView style={styles.container}>
         <View
           style={{
-            flex: 1,
+            flex: 2,
             alignSelf: "flex-start",
             marginTop: 70,
             marginLeft: 40,
             marginBottom: 18
           }}
         >
-          <Text style={{ fontSize: 70, color: "white", fontWeight: "200" }}>
-            OTP
+          <Text style={{ fontSize: 50, color: "white", fontWeight: "200" }}>
+            Enter the code received on your registered email
           </Text>
         </View>
         <View style={styles.inputView}>
@@ -79,7 +79,7 @@ class OtpSignup extends Component {
             </Text>
           </TouchableOpacity>
         </View>
-      </SafeAreaView>
+      </KeyboardAvoidingView>
     );
   }
 }

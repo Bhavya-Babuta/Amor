@@ -51,9 +51,7 @@ let Navigation = createAppContainer(app);
 class App extends React.Component {
   constructor(props) {
     super(props);
-  }
-  async componentWillMount() {
-    await Font.loadAsync({
+    Font.loadAsync({
       "AvenirNext-Medium": require("./assets/fonts/AvenirNext-Medium.ttf")
     });
   }

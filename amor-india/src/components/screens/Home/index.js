@@ -35,7 +35,7 @@ class Home extends Component {
     );
   }
 
-  async componentWillMount() {
+  async componentDidMount() {
     const response = await axios.get(
       "https://fojusa5sl3.execute-api.ap-south-1.amazonaws.com/dev/v1/categories"
     );
@@ -114,7 +114,7 @@ class Home extends Component {
           </View>
           <SearchBarComponent />
           <View style={styles.wrapper}>
-            {/* <Swiper
+            <Swiper
               showsButtons={false}
               autoplay={true}
               paginationStyle={{ marginTop: 100 }}
@@ -137,22 +137,22 @@ class Home extends Component {
                   source={require("../../../../assets/images/amor-jeans.jpg")}
                 ></Image>
               </View>
-            </Swiper> */}
+            </Swiper>
           </View>
           <Text style={styles.topText}>Browse by Categories</Text>
           <FlatList
-            key={uuid()}
             data={categories}
             renderItem={({ item }) => (
-              <View style={styles.itemContainer} key={uuid()}>
+              <View style={styles.itemContainer}>
                 <Text
                   style={{
-                    padding: 18,
+                    padding: 5,
+                    paddingBottom: 18,
+                    paddingTop: 18,
                     alignSelf: "center",
-                    fontSize: normalize(9),
+                    fontSize: normalize(10),
                     fontWeight: "500"
                   }}
-                  key={uuid()}
                 >
                   {item.category_name}
                 </Text>

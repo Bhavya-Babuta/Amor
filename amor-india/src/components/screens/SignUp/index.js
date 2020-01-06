@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import {
   View,
   Text,
-  ImageBackground,
+  KeyboardAvoidingView,
   TextInput,
   SafeAreaView,
   TouchableOpacity
@@ -74,7 +74,7 @@ class SignUp extends Component {
   render() {
     const { password, cPassword, email, firstName, lastName } = this.state;
     return (
-      <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
         <View style={styles.mainTextContainer}>
           <Text style={styles.mainText}>Signup</Text>
         </View>
@@ -123,7 +123,7 @@ class SignUp extends Component {
             </TouchableOpacity>
           </View>
         </View>
-      </SafeAreaView>
+      </KeyboardAvoidingView>
     );
   }
 }

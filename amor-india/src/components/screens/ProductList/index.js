@@ -14,6 +14,8 @@ import {
 import SearchBarComponent from "../../screens/SearchBarComponent";
 import GeneralStatusBarColor from "../../components/GeneralStatusBarColor/GeneralStatusBarColor";
 import { TouchableOpacity } from "react-native-gesture-handler";
+const { normalize } = require("../../../../helper");
+
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
@@ -153,24 +155,21 @@ class ProductList extends Component {
               alignSelf: "flex-start",
               marginTop: "10%",
               marginLeft: 25,
-              fontSize: 25,
+              fontSize: normalize(20),
               fontWeight: "500"
             }}
           >
             {name}
           </Text>
           <Text
-            style={{ marginLeft: 25, marginTop: 6, fontSize: 20 }}
-          >{`${color}`}</Text>
-          <Text
-            style={{ marginLeft: 25, marginTop: 9, fontSize: 20 }}
+            style={{ marginLeft: 25, marginTop: 9, fontSize: normalize(15) }}
           >{`Available sizes: ${sizeString}`}</Text>
           <Text
             style={{
               alignSelf: "flex-start",
-              marginTop: "20%",
+              marginTop: "28%",
               marginLeft: 25,
-              fontSize: 20,
+              fontSize: normalize(15),
               fontWeight: "600"
             }}
           >{`${`\u20B9`}${price}`}</Text>

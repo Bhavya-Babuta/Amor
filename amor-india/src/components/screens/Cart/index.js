@@ -57,9 +57,10 @@ class Cart extends Component {
       total = total + element.quantity * element.price;
     });
     console.log("subtotal: ", total);
-    this.setState({ finalAmount: tax + total });
+    this.setState({ finalAmount: (tax + total).toFixed(2) });
     this.setState({ total: total.toFixed(2) });
   }
+
   render() {
     const { cartProducts, total, finalAmount, tax } = this.state;
     console.log("Cart Products: ", cartProducts);
@@ -84,7 +85,7 @@ class Cart extends Component {
               />
             </View>
             <View style={styles.summary}>
-              <View style={{ flex: 1 }}>
+              <View style={{ height: 180 }}>
                 <View
                   style={{
                     flex: 1,
@@ -94,14 +95,15 @@ class Cart extends Component {
                     borderTopRightRadius: 15,
                     borderBottomColor: "#CDCDCD",
                     borderBottomWidth: 1,
-                    flexDirection: "row"
+                    flexDirection: "row",
+                    backgroundColor: "#ffffff"
                   }}
                 >
                   <Text
                     style={{
-                      fontSize: 20,
+                      fontSize: normalize(12),
                       fontWeight: "300",
-                      marginTop: 25,
+                      marginTop: 20,
                       marginLeft: 20
                     }}
                   >
@@ -109,9 +111,9 @@ class Cart extends Component {
                   </Text>
                   <Text
                     style={{
-                      fontSize: 17,
+                      fontSize: normalize(12),
                       fontWeight: "300",
-                      marginTop: 26,
+                      marginTop: 20,
                       marginLeft: "45%"
                     }}
                   >
@@ -125,14 +127,15 @@ class Cart extends Component {
                     borderWidth: 2,
                     borderBottomColor: "#CDCDCD",
                     borderBottomWidth: 1,
-                    flexDirection: "row"
+                    flexDirection: "row",
+                    backgroundColor: "#ffffff"
                   }}
                 >
                   <Text
                     style={{
-                      fontSize: 20,
+                      fontSize: normalize(12),
                       fontWeight: "300",
-                      marginTop: 23,
+                      marginTop: 20,
                       marginLeft: 20
                     }}
                   >
@@ -140,11 +143,10 @@ class Cart extends Component {
                   </Text>
                   <Text
                     style={{
-                      alignSelf: "flex-end",
-                      fontSize: 17,
+                      fontSize: normalize(12),
                       fontWeight: "300",
-                      marginLeft: "53.5%",
-                      marginBottom: 25
+                      marginLeft: "52.5%",
+                      marginTop: 20
                     }}
                   >
                     {`${`\u20B9`}${tax.toFixed(2)}`}
@@ -154,16 +156,17 @@ class Cart extends Component {
                   style={{
                     flex: 1,
                     borderColor: "#ffffff",
-                    borderBottomStartRadius: 15,
+                    borderBottomRightRadius: 15,
                     borderBottomLeftRadius: 15,
-                    flexDirection: "row"
+                    flexDirection: "row",
+                    backgroundColor: "#ffffff"
                   }}
                 >
                   <Text
                     style={{
-                      fontSize: 28,
+                      fontSize: normalize(18),
                       fontWeight: "500",
-                      marginTop: 18,
+                      marginTop: 16,
                       marginLeft: 20
                     }}
                   >
@@ -171,10 +174,10 @@ class Cart extends Component {
                   </Text>
                   <Text
                     style={{
-                      fontSize: 24,
+                      fontSize: normalize(15),
                       fontWeight: "300",
-                      marginTop: 23,
-                      marginLeft: "49%"
+                      marginTop: 18,
+                      marginLeft: "47.5%"
                     }}
                   >
                     {`${`\u20B9`}${finalAmount}`}

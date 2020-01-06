@@ -9,5 +9,5 @@ export default StyleSheet.create({
     backgroundColor: "#D0E0DD"
   },
   cartList: { marginLeft: 10, flex: 3, marginTop: 10 },
-  summary: { flex: 2, margin: 30, borderRadius: 10, backgroundColor: "#ffffff" }
+  summary: { flex: 2, margin: 25, borderRadius: 10 }
 });
