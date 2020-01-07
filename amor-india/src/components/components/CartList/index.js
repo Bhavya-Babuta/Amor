@@ -52,8 +52,7 @@ class CartList extends React.Component {
               <View
                 style={{
                   width: 45,
-                  height: 30,
-                  backgroundColor: "skyblue"
+                  height: 30
                 }}
               >
                 <Text style={styles.quantityText}>{item.quantity}</Text>

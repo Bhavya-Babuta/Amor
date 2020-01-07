@@ -143,7 +143,10 @@ class Home extends Component {
           <FlatList
             data={categories}
             renderItem={({ item }) => (
-              <View style={styles.itemContainer}>
+              <TouchableOpacity
+                style={styles.itemContainer}
+                onPress={() => this.props.navigation.navigate("ProductList")}
+              >
                 <Text
                   style={{
                     padding: 5,
@@ -156,7 +159,7 @@ class Home extends Component {
                 >
                   {item.category_name}
                 </Text>
-              </View>
+              </TouchableOpacity>
             )}
             keyExtractor={item => item.id}
             numColumns={2}

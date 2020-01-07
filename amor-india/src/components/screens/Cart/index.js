@@ -77,7 +77,7 @@ class Cart extends Component {
             <Text style={{ fontSize: 25 }}>The shopping cart is empty</Text>
           </View>
         ) : (
-          <View style={{ flex: 3 }}>
+          <View style={{ flex: 2 }}>
             <View style={styles.cartList}>
               <CartList
                 cartProducts={cartProducts}
@@ -85,7 +85,7 @@ class Cart extends Component {
               />
             </View>
             <View style={styles.summary}>
-              <View style={{ height: 180 }}>
+              <View style={{ height: 150 }}>
                 <View
                   style={{
                     flex: 1,
@@ -103,7 +103,7 @@ class Cart extends Component {
                     style={{
                       fontSize: normalize(12),
                       fontWeight: "300",
-                      marginTop: 20,
+                      marginTop: 14,
                       marginLeft: 20
                     }}
                   >
@@ -113,7 +113,7 @@ class Cart extends Component {
                     style={{
                       fontSize: normalize(12),
                       fontWeight: "300",
-                      marginTop: 20,
+                      marginTop: 15,
                       marginLeft: "45%"
                     }}
                   >
@@ -135,7 +135,7 @@ class Cart extends Component {
                     style={{
                       fontSize: normalize(12),
                       fontWeight: "300",
-                      marginTop: 20,
+                      marginTop: 13,
                       marginLeft: 20
                     }}
                   >
@@ -145,8 +145,8 @@ class Cart extends Component {
                     style={{
                       fontSize: normalize(12),
                       fontWeight: "300",
-                      marginLeft: "52.5%",
-                      marginTop: 20
+                      marginLeft: "52%",
+                      marginTop: 14
                     }}
                   >
                     {`${`\u20B9`}${tax.toFixed(2)}`}
@@ -164,9 +164,9 @@ class Cart extends Component {
                 >
                   <Text
                     style={{
-                      fontSize: normalize(18),
+                      fontSize: normalize(15),
                       fontWeight: "500",
-                      marginTop: 16,
+                      marginTop: 11,
                       marginLeft: 20
                     }}
                   >
@@ -176,13 +176,18 @@ class Cart extends Component {
                     style={{
                       fontSize: normalize(15),
                       fontWeight: "300",
-                      marginTop: 18,
-                      marginLeft: "47.5%"
+                      marginTop: 12,
+                      marginLeft: "50.5%"
                     }}
                   >
                     {`${`\u20B9`}${finalAmount}`}
                   </Text>
                 </View>
+              </View>
+              <View style={{ marginTop: 25 }}>
+                <TouchableOpacity style={[styles.proceedButton]}>
+                  <Text style={styles.proceedText}>Proceed to checkout</Text>
+                </TouchableOpacity>
               </View>
             </View>
           </View>

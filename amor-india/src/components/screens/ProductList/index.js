@@ -155,21 +155,21 @@ class ProductList extends Component {
               alignSelf: "flex-start",
               marginTop: "10%",
               marginLeft: 25,
-              fontSize: normalize(20),
+              fontSize: normalize(17),
               fontWeight: "500"
             }}
           >
             {name}
           </Text>
           <Text
-            style={{ marginLeft: 25, marginTop: 9, fontSize: normalize(15) }}
+            style={{ marginLeft: 25, marginTop: 9, fontSize: normalize(12) }}
           >{`Available sizes: ${sizeString}`}</Text>
           <Text
             style={{
               alignSelf: "flex-start",
               marginTop: "28%",
               marginLeft: 25,
-              fontSize: normalize(15),
+              fontSize: normalize(17),
               fontWeight: "600"
             }}
           >{`${`\u20B9`}${price}`}</Text>
@@ -191,23 +191,27 @@ class ProductList extends Component {
           <View
             style={{
               flexDirection: "row",
-              alignSelf: "flex-end",
-              borderRadius: 10,
-              borderWidth: 1
+              alignSelf: "flex-start"
             }}
           >
-            <Button title="Filter By" style={[styles.viewButonStyles]} />
-            <Button
-              title="GridView"
-              style={[styles.viewButonStyles]}
-              onPress={() => {
-                this.setState({ noColumns: 2 });
+            <View
+              style={{
+                alignSelf: "flex-start",
+                width: "50%",
+                borderColor: "black",
+                borderWidth: 1
               }}
-            />
-            <Button title="ListView" style={[styles.viewButonStyles]} />
+            >
+              <Button title="Filter by" style={[styles.viewButonStyles]} />
+            </View>
+            <View
+              style={{ alignSelf: "flex-end", width: "50%", borderWidth: 1 }}
+            >
+              <Button title="Sort by" style={[styles.viewButonStyles]} />
+            </View>
           </View>
         </View>
-        <View>
+        <View style={{ flex: 1 }}>
           <FlatList
             data={data}
             showsVerticalScrollIndicator={false}

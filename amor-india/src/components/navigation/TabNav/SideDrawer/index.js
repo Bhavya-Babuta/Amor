@@ -11,12 +11,12 @@ import { DrawerItems } from "react-navigation-drawer";
 import { Dimensions, Platform } from "react-native";
 const width = Dimensions.get("window").width;
 import Icon from "react-native-vector-icons/FontAwesome";
+import { normalize } from "react-native-elements";
 
 const SideDrawer = createDrawerNavigator(
   {
     Home: { screen: HomeStack },
     "My Orders": { screen: Account },
-    "Returns/Refund": { screen: Account },
     Feedback: { screen: Feedback },
     "About Amor": { screen: AboutUs },
     "Contact Us": { screen: ContactUs },
@@ -50,9 +50,13 @@ const SideDrawer = createDrawerNavigator(
         </View>
         <ScrollView style={{ width: width / 2 + width / 5.5 }}>
           <DrawerItems
-            style={{ alignItems: "left", justifyContent: "left", fontSize: 35 }}
+            style={{ alignItems: "left", justifyContent: "left" }}
             {...props}
+            labelStyle={{ fontSize: normalize(13), fontWeight: "300" }}
           />
+          <View style={{ alignSelf: "center", marginTop: 150 }}>
+            <Text>App Version 1.0</Text>
+          </View>
         </ScrollView>
       </SafeAreaView>
     )

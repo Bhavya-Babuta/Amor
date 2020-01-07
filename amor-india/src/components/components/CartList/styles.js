@@ -14,15 +14,17 @@ export default StyleSheet.create({
   },
   image: {
     alignSelf: "center",
-    width: "75%",
-    height: "70%",
-    marginTop: "8%"
+    width: "100%",
+    height: "80%"
   },
   productName: { fontSize: 15, alignSelf: "center", marginTop: 5 },
   updateStack: {
     flexDirection: "row",
     alignSelf: "center",
-    marginTop: 5
+    marginTop: 5,
+    borderWidth: 0.5,
+    borderColor: "#CDCDCD",
+    borderRadius: 4
   },
   updateButton: {
     width: 35,
