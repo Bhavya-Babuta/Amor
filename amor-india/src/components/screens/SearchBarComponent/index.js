@@ -14,6 +14,7 @@ class SearchBarComponent extends Component {
         containerStyle={[
           {
             width: "100%",
+            backgroundColor: "#2a3c3c",
             alignSelf: "center"
           }
           // {

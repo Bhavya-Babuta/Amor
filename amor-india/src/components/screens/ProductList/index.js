@@ -15,6 +15,7 @@ import SearchBarComponent from "../../screens/SearchBarComponent";
 import GeneralStatusBarColor from "../../components/GeneralStatusBarColor/GeneralStatusBarColor";
 import { TouchableOpacity } from "react-native-gesture-handler";
 const { normalize } = require("../../../../helper");
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -187,31 +188,34 @@ class ProductList extends Component {
           backgroundColor="#253037"
           barStyle="light-content"
         />
-        <SearchBarComponent />
-        <View style={styles.filterBar}>
-          <View
-            style={{
-              flexDirection: "row",
-              alignSelf: "flex-start"
-            }}
-          >
+        <View style={{ flexDirection: "row" }}>
+          <View style={{ flex: 10 }}>
+            <SearchBarComponent />
+          </View>
+          <View style={styles.filterBar}>
             <View
               style={{
-                alignSelf: "flex-start",
-                width: "50%",
-                borderColor: "black",
-                borderWidth: 1
+                flexDirection: "row",
+                alignSelf: "center",
+                marginTop: 10
               }}
             >
-              <Button title="Filter by" style={[styles.viewButonStyles]} />
-            </View>
-            <View
-              style={{ alignSelf: "flex-end", width: "50%", borderWidth: 1 }}
-            >
-              <Button title="Sort by" style={[styles.viewButonStyles]} />
+              <View style={{ alignSelf: "centre", flex: 1 }}>
+                <TouchableOpacity
+                  style={
+                    ([styles.viewButonStyles],
+                    {
+                      flexDirection: "row"
+                    })
+                  }
+                >
+                  <Icon name="sort" size={35} style={styles.icon} />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </View>
+
         <View style={{ flex: 1 }}>
           <FlatList
             data={data}
@@ -256,10 +260,16 @@ const styles = StyleSheet.create({
   },
   viewButonStyles: {
     borderColor: "black",
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingTop: 10,
-    paddingBottom: 10
+    alignSelf: "center"
   },
-  filterBar: { padding: 2, flexDirection: "column", borderWidth: 4 }
+  filterBar: {
+    flex: 1,
+    backgroundColor: "#2a3c3c",
+    borderTopWidth: 1
+  },
+  icon: {
+    flex: 1,
+    color: "white",
+    alignSelf: "center"
+  }
 });
