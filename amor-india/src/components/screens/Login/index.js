@@ -32,21 +32,22 @@ class Login extends Component {
 
   handleSign = async () => {
     try {
-      console.log("In Handle sign in");
-      const { email, password } = this.state;
-      if (email) {
-        console.log("Signing in user");
-        const cognitoUser = await Auth.signIn(email, password).catch(error => {
-          console.log("Error: ", error);
-        });
-        console.log("Cognito User: ", cognitoUser);
-        if (cognitoUser.challengeName === "NEW_PASSWORD_REQUIRED") {
-          this.props.navigation.navigate("NewPassword", { user: cognitoUser });
-        } else {
-          console.log("Success: ", cognitoUser);
-          this.onSuccess(cognitoUser);
-        }
-      }
+      // console.log("In Handle sign in");
+      // const { email, password } = this.state;
+      // if (email) {
+      //   console.log("Signing in user");
+      //   const cognitoUser = await Auth.signIn(email, password).catch(error => {
+      //     console.log("Error: ", error);
+      //   });
+      //   console.log("Cognito User: ", cognitoUser);
+      //   if (cognitoUser.challengeName === "NEW_PASSWORD_REQUIRED") {
+      //     this.props.navigation.navigate("NewPassword", { user: cognitoUser });
+      //   } else {
+      //     console.log("Success: ", cognitoUser);
+      //     this.onSuccess(cognitoUser);
+      //   }
+      // }
+      this.props.navigation.navigate("Home");
     } catch (err) {
       console.log("Error Occured: ", err);
       this.onFailure(err);
