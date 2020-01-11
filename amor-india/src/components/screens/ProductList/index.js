@@ -119,6 +119,7 @@ class ProductList extends Component {
       viewType: "ListView",
       noColumns: 1
     };
+    this.Item = this.Item.bind(this);
   }
 
   getSizeString = sizeList => {
@@ -137,7 +138,7 @@ class ProductList extends Component {
     return sizeString;
   };
 
-  Item({ id, src, name, color, price, sizeString }) {
+  Item = ({ id, src, name, price, sizeString }) => {
     return (
       <TouchableOpacity
         style={styles.productContainer}
@@ -176,7 +177,7 @@ class ProductList extends Component {
         </View>
       </TouchableOpacity>
     );
-  }
+  };
 
   render() {
     const { noColumns } = this.state;
@@ -224,7 +225,6 @@ class ProductList extends Component {
                   id={item.id}
                   src={item.img}
                   name={item.product_name}
-                  color={item.product_color}
                   price={item.price}
                   sizeString={sizeString}
                 ></this.Item>
