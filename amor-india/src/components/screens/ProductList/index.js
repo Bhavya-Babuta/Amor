@@ -139,11 +139,19 @@ class ProductList extends Component {
     return sizeString;
   };
 
-  Item = ({ id, src, name, price, sizeString }) => {
+  Item = ({ id, src, name, price, sizeString, availableSizes }) => {
     return (
       <TouchableOpacity
         style={styles.productContainer}
-        onPress={() => this.props.navigation.navigate("ProductPage", { id })}
+        onPress={() =>
+          this.props.navigation.navigate("ProductPage", {
+            id,
+            src,
+            name,
+            price,
+            availableSizes
+          })
+        }
       >
         <View>
           <Image
@@ -230,6 +238,7 @@ class ProductList extends Component {
                   src={item.img}
                   name={item.product_name}
                   price={item.price}
+                  availableSizes={item.availableSizes}
                   sizeString={sizeString}
                 ></this.Item>
               );

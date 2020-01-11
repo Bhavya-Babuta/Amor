@@ -75,6 +75,14 @@ class Cart extends Component {
             }}
           >
             <Text style={{ fontSize: 25 }}>The shopping cart is empty</Text>
+            <TouchableOpacity
+              style={[
+                styles.proceedButton,
+                { paddingLeft: 50, paddingRight: 50, marginTop: 20 }
+              ]}
+            >
+              <Text style={styles.proceedText}>Hi</Text>
+            </TouchableOpacity>
           </View>
         ) : (
           <View style={{ flex: 2 }}>
