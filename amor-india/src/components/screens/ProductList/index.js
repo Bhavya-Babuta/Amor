@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { CheckBox } from 'react-native-elements'
 import {
   View,
   Text,
@@ -9,8 +10,10 @@ import {
   Image,
   Button,
   Platform,
-  StatusBar
+  StatusBar,
+  Modal
 } from "react-native";
+import { Ionicons } from '@expo/vector-icons';
 import SearchBarComponent from "../../screens/SearchBarComponent";
 import GeneralStatusBarColor from "../../components/GeneralStatusBarColor/GeneralStatusBarColor";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -118,7 +121,9 @@ class ProductList extends Component {
     this.state = {
       products: null,
       viewType: "ListView",
-      noColumns: 1
+      noColumns: 1,
+      isVisible: false,
+      checked: false
     };
     this.Item = this.Item.bind(this);
   }
@@ -208,8 +213,30 @@ class ProductList extends Component {
                 marginTop: 10
               }}
             >
-              <View style={{ alignSelf: "centre", flex: 1 }}>
+                <Modal            
+                  animationType = {"fade"}  
+                  transparent = {false}  
+                  visible = {this.state.isVisible}  
+                  onRequestClose = {() =>{ console.log("Modal has been closed.") } }>  
+                  {/*All views of Modal*/}  
+                  <View style = {styles.modal}>  
+                  <Ionicons name="md-close" size={32} color="green" style={{alignSelf: 'flex-end', marginRight: 10}} 
+                  onPress = {() => {  
+                    this.setState({ isVisible:!this.state.isVisible})}}/>
+                  <Text style={{alignSelf: 'center', fontSize: 20 }}>Sort By</Text>
+                  <CheckBox title="Price" 
+                  checked={this.state.checked}
+                  onPress={() => this.setState({checked: !this.state.checked})}></CheckBox>
+                  <TouchableOpacity style={{alignSelf: "center", borderRadius: 4, marginTop: 20, padding: 10,
+                    borderWidth: 0.5,
+                    borderColor: '#d6d7da',}}>
+                    <Text>Apply</Text>
+                  </TouchableOpacity>
+                  </View>  
+                </Modal>  
+              <View style={{ alignSelf: "center", flex: 1 }}>
                 <TouchableOpacity
+                  onPress = {() => {this.setState({ isVisible: true})}}  
                   style={
                     ([styles.viewButonStyles],
                     {
