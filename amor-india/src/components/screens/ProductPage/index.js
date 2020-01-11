@@ -7,12 +7,13 @@ import {
   Image,
   StyleSheet
 } from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { ScrollView } from "react-native-gesture-handler";
 import GeneralStatusBarColor from "../../components/GeneralStatusBarColor/GeneralStatusBarColor";
 import { Platform, Dimensions, StatusBar } from "react-native";
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
+import { StackActions } from "react-navigation";
 
 const STATUSBAR_HEIGHT = Platform.OS === "ios" ? 20 : StatusBar.currentHeight;
 import { normalize } from "../../../../helper";
@@ -68,6 +69,14 @@ class ProductPage extends Component {
         />
 
         <View style={styles.header}>
+          <Icon
+            name="keyboard-backspace"
+            size={30}
+            onPress={() => {
+              const popAction = StackActions.pop({ n: 1 });
+              this.props.navigation.dispatch(popAction);
+            }}
+          ></Icon>
           <Image
             source={require("../../../../assets/images/amorbranding-white.jpg")}
             style={styles.background}

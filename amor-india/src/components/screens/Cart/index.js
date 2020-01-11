@@ -80,8 +80,11 @@ class Cart extends Component {
                 styles.proceedButton,
                 { paddingLeft: 50, paddingRight: 50, marginTop: 20 }
               ]}
+              onPress={() => {
+                this.props.navigation.navigate("Categories");
+              }}
             >
-              <Text style={styles.proceedText}>Hi</Text>
+              <Text style={styles.proceedText}>Browse Categories</Text>
             </TouchableOpacity>
           </View>
         ) : (

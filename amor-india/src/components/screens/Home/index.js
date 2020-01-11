@@ -176,7 +176,18 @@ class Home extends Component {
                 styles.highlightedProductsFlatlistColumnWrapper
               }
               renderItem={({ item }) => (
-                <TouchableOpacity style={styles.highlightedProducts}>
+                <TouchableOpacity
+                  style={styles.highlightedProducts}
+                  onPress={() => {
+                    this.props.navigation.navigate("ProductPageHome", {
+                      name: item.name,
+                      src: item.src,
+                      name: item.name,
+                      availableSizes: item.availableSizes,
+                      price: item.price
+                    });
+                  }}
+                >
                   <Image
                     style={styles.highlightedProductsImage}
                     source={item.src}
