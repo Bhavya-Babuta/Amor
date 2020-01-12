@@ -1,12 +1,14 @@
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import Home from "../../../../screens/Home";
-import ProductPageHome from "../../../../screens/ProductPage";
+import ProductPage from "../../../../screens/ProductPage";
+import ProductList from "../../../../screens/ProductList";
 
 const Homes = createStackNavigator(
   {
     Home: { screen: Home },
-    ProductPageHome: { screen: ProductPageHome }
+    ProductListHome: { screen: ProductList },
+    ProductPageHome: { screen: ProductPage }
   },
   {
     headerMode: "none"

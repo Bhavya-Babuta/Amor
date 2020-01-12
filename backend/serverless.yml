@@ -34,6 +34,12 @@ provider:
 plugins:
   - serverless-dotenv-plugin
   - serverless-offline
+  - serverless-api-gateway-caching
+
+custom:
+  # Enable or disable caching globally
+  apiGatewayCaching:
+    enabled: true
 
 functions:
   allproducts:
@@ -49,3 +55,19 @@ functions:
       - http:
           path: /v1/categories
           method: get
+          caching: true
+
+distribution:
+  component: "@serverless/aws-cloudfront"
+  inputs:
+    region: ap-south-1
+    enabled: true # optional
+    comment: "Amor distribution" # optional
+    defaults: # optional
+      ttl: 600
+      allowedHttpMethods: ["HEAD", "GET"]
+      viewerProtocolPolicy: "https-only" # optional
+      smoothStreaming: true # optional
+      compress: true # optional
+    origins:
+      - https://amorindia.s3.amazonaws.com

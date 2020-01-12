@@ -17,6 +17,7 @@ import { StackActions } from "react-navigation";
 
 const STATUSBAR_HEIGHT = Platform.OS === "ios" ? 20 : StatusBar.currentHeight;
 import { normalize } from "../../../../helper";
+import Swiper from "react-native-swiper";
 
 class ProductPage extends Component {
   constructor(props) {
@@ -29,7 +30,9 @@ class ProductPage extends Component {
       src: navigation.getParam("src"),
       name: navigation.getParam("name"),
       price: navigation.getParam("price"),
-      availableSizes: navigation.getParam("availableSizes")
+      availableSizes: navigation.getParam("availableSizes"),
+      color: navigation.getParam("color"),
+      design: navigation.getParam("design")
     };
     console.log("Props: ", this.props.src);
   }
@@ -59,8 +62,15 @@ class ProductPage extends Component {
     ));
   };
 
+  getSwiperImages = src => {
+    console.log("Src is: ", src);
+    return;
+  };
+
   render() {
-    const { src, name, price } = this.state;
+    const { src, name, price, design, color } = this.state;
+    console.log("Source is: ", src);
+    console.log("Color: ", color);
     return (
       <SafeAreaView style={styles.container}>
         <GeneralStatusBarColor
@@ -88,15 +98,31 @@ class ProductPage extends Component {
           showsVerticalScrollIndicator={false}
           stickyHeaderIndices={[1]}
         >
-          <View style={styles.productContainer}>
-            <View style={styles.productImageContainer}>
+          <View style={styles.productImageContainer}>
+            <Swiper
+              autoplay={false}
+              showsButtons={true}
+              showsPagination={false}
+              style={{ color: "black", height: HEIGHT * 0.6 }}
+            >
               <Image
-                source={src}
+                source={{
+                  uri: src[0],
+                  headers: { "Content-Encoding": "gzip" }
+                }}
                 style={styles.productImageFull}
                 resizeMethod="scale"
               ></Image>
-            </View>
-            <View style={{ marginTop: 5, marginLeft: 20, alignSelf: "center" }}>
+              <Image
+                source={{
+                  uri: src[1],
+                  headers: { "Content-Encoding": "gzip" }
+                }}
+                style={styles.productImageFull}
+                resizeMethod="scale"
+              ></Image>
+            </Swiper>
+            <View style={{ marginTop: 5, flex: 1, alignSelf: "center" }}>
               <Text
                 style={{
                   color: "black",
@@ -106,22 +132,26 @@ class ProductPage extends Component {
               >
                 {name}
               </Text>
-              <Text
-                style={{
-                  color: "black",
-                  fontSize: normalize(15),
-                  marginTop: 5,
-                  alignSelf: "center"
-                }}
-              >
-                {`${`\u20B9`}${price}`}
-              </Text>
+              <View>
+                <Text
+                  style={{
+                    color: "black",
+                    fontSize: normalize(15),
+                    marginTop: 5,
+                    alignSelf: "center"
+                  }}
+                >
+                  {`${`\u20B9`}${price}`}
+                </Text>
+              </View>
             </View>
-            <View style={{ flexDirection: "row", marginTop: 15 }}>
-              <View style={{ flexDirection: "row", marginLeft: "7%" }}>
+            <View
+              style={{ flexDirection: "row", marginTop: 12, marginLeft: "5%" }}
+            >
+              <View style={{ flexDirection: "row", alignSelf: "center" }}>
                 {this.getSizesStack()}
               </View>
-              <View style={{ marginLeft: "27%" }}>
+              <View style={{ marginLeft: "22%" }}>
                 <TouchableOpacity
                   style={{
                     alignSelf: "center"
@@ -200,7 +230,7 @@ const styles = StyleSheet.create({
   },
   productImageFull: {
     width: WIDTH * 0.7,
-    height: HEIGHT * 0.6,
+    height: "100%",
     alignSelf: "center"
   },
   productImageContainer: {

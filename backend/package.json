@@ -4,8 +4,12 @@
   "description": "",
   "main": "handler.js",
   "dependencies": {
+    "aws-sdk": "^2.601.0",
     "papaparse": "^5.0.2",
-    "pg": "^7.12.1"
+    "pg": "^7.12.1",
+    "serverless-api-gateway-caching": "^1.4.1",
+    "timekeeper": "^2.2.0",
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
     "serverless-offline": "^5.10.1",

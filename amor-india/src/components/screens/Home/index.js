@@ -22,7 +22,8 @@ class Home extends Component {
     this.state = {
       loading: true,
       activeIndex: 0,
-      categories: null
+      categories: null,
+      featuredProducts: []
     };
   }
 
@@ -36,58 +37,20 @@ class Home extends Component {
   }
 
   async componentDidMount() {
-    const response = await axios.get(
-      "https://fojusa5sl3.execute-api.ap-south-1.amazonaws.com/dev/v1/categories"
+    const categoriesResult = await axios.get(
+      "https://wq3nngv3ch.execute-api.ap-south-1.amazonaws.com/dev/v1/categories"
     );
-    this.setState({ categories: response.data.data.categories });
+    this.setState({ categories: categoriesResult.data.data.categories });
+    const featuredProductsResult = await axios.get(
+      "https://wq3nngv3ch.execute-api.ap-south-1.amazonaws.com/dev/v1/products/?filterBy=featured"
+    );
+    console.log("FeaturedProducts: ", featuredProductsResult.data.data);
+    this.setState({ featuredProducts: featuredProductsResult.data.data });
   }
 
   render() {
-    const data = [
-      {
-        id: "a",
-        name: "Formal & Casual Shirts",
-        src: require("../../../../assets/images/temp/FormalCasualShirts/edited.jpg"),
-        price: "400",
-        availableSizes: ["S", "M", "L"]
-      },
-      {
-        id: "b",
-        name: "Two Piece Dresses",
-        src: require("../../../../assets/images/temp/TwoPieceDresses/11.jpg"),
-        price: "800",
-        availableSizes: ["S", "M", "L"]
-      },
-      {
-        id: "c",
-        name: "Tops",
-        src: require("../../../../assets/images/temp/Tops/edited7.jpg"),
-        price: "600",
-        availableSizes: ["S", "M", "L"]
-      },
-      {
-        id: "d",
-        name: "Long Dresses",
-        src: require("../../../../assets/images/temp/LongDresses/3.jpg"),
-        price: "300",
-        availableSizes: ["S", "M", "L"]
-      },
-      {
-        id: "e",
-        name: "Short Dresses",
-        src: require("../../../../assets/images/temp/ShortDresses/1.jpg"),
-        price: "900",
-        availableSizes: ["S", "M", "L"]
-      },
-      {
-        id: "f",
-        name: "Jumpsuits & Playsuits",
-        src: require("../../../../assets/images/temp/JumpsuitPlaysuit/edited43.jpg"),
-        price: "1400",
-        availableSizes: ["S", "M", "L"]
-      }
-    ];
-    const { categories } = this.state;
+    const { categories, featuredProducts } = this.state;
+    console.log("Featured products here: ", featuredProducts);
     return (
       <SafeAreaView style={styles.container}>
         <GeneralStatusBarColor
@@ -145,7 +108,11 @@ class Home extends Component {
             renderItem={({ item }) => (
               <TouchableOpacity
                 style={styles.itemContainer}
-                onPress={() => this.props.navigation.navigate("ProductList")}
+                onPress={() =>
+                  this.props.navigation.navigate("ProductListHome", {
+                    filterBy: item.category_name
+                  })
+                }
               >
                 <Text
                   style={{
@@ -166,47 +133,57 @@ class Home extends Component {
           />
           <View style={{ marginBottom: 20 }}>
             <Text style={styles.topText}>Star Products</Text>
-            <FlatList
-              data={data}
-              //   horizontal={true}
-              //   showsHorizontalScrollIndicator={true}
-              numColumns={2}
-              style={styles.highlightedProductsFlatlist}
-              columnWrapperStyle={
-                styles.highlightedProductsFlatlistColumnWrapper
-              }
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={styles.highlightedProducts}
-                  onPress={() => {
-                    this.props.navigation.navigate("ProductPageHome", {
-                      name: item.name,
-                      src: item.src,
-                      name: item.name,
-                      availableSizes: item.availableSizes,
-                      price: item.price
-                    });
-                  }}
-                >
-                  <Image
-                    style={styles.highlightedProductsImage}
-                    source={item.src}
-                  />
-                  <View
-                    style={{
-                      flex: 1,
-                      height: 70
-                    }}
-                  >
-                    <Text style={styles.nameText}>{item.name}</Text>
-                    <Text style={styles.priceText}>
-                      {`${`\u20B9`}${item.price}`}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              )}
-              keyExtractor={(item, index) => index.toString()}
-            />
+            {featuredProducts.length !== 0 ? (
+              <FlatList
+                data={featuredProducts}
+                //   horizontal={true}
+                //   showsHorizontalScrollIndicator={true}
+                numColumns={2}
+                style={styles.highlightedProductsFlatlist}
+                columnWrapperStyle={
+                  styles.highlightedProductsFlatlistColumnWrapper
+                }
+                renderItem={({ item }) => {
+                  console.log("Item: ", item);
+                  return (
+                    <TouchableOpacity
+                      style={styles.highlightedProducts}
+                      onPress={() => {
+                        this.props.navigation.navigate("ProductPageHome", {
+                          name: item.name,
+                          src: item.src,
+                          name: item.name,
+                          availableSizes: item.availableSizes,
+                          price: item.price
+                        });
+                      }}
+                    >
+                      {item.src ? (
+                        <Image
+                          style={styles.highlightedProductsImage}
+                          source={{
+                            uri: item.src[0],
+                            headers: { "Content-Encoding": "gzip" }
+                          }}
+                        />
+                      ) : null}
+                      <View
+                        style={{
+                          flex: 1,
+                          height: 70
+                        }}
+                      >
+                        <Text style={styles.nameText}>{item.name}</Text>
+                        <Text style={styles.priceText}>
+                          {`${`\u20B9`}${item.price}`}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  );
+                }}
+                keyExtractor={(item, index) => uuid()}
+              />
+            ) : null}
           </View>
         </ScrollView>
       </SafeAreaView>

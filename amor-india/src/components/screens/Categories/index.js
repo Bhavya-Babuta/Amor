@@ -68,7 +68,11 @@ class MaleCategories extends Component {
                 // shadowRadius: 2.62,
                 // elevation: 4,
               }}
-              onPress={() => this.props.navigation.navigate("ProductList")}
+              onPress={() =>
+                this.props.navigation.navigate("ProductList", {
+                  filterBy: item.name
+                })
+              }
             >
               <ImageBackground
                 source={item.img}

@@ -16,111 +16,41 @@ import GeneralStatusBarColor from "../../components/GeneralStatusBarColor/Genera
 import { TouchableOpacity } from "react-native-gesture-handler";
 const { normalize } = require("../../../../helper");
 import Icon from "react-native-vector-icons/MaterialIcons";
+import axios from "axios";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 const STATUSBAR_HEIGHT = Platform.OS === "ios" ? 20 : StatusBar.currentHeight;
 
-const data = [
-  {
-    id: 1,
-    product_name: "Product A",
-    img: require("../../../../assets/images/temp/LongDresses/3.jpg"),
-    product_color: "Black",
-    price: 240,
-    availableSizes: ["S", "M", "L"]
-  },
-  {
-    id: 2,
-    product_name: "Product A",
-    img: require("../../../../assets/images/temp/FormalCasualShirts/edited35.jpg"),
-    product_color: "Black",
-    price: 330,
-    availableSizes: ["S", "M", "L"]
-  },
-  {
-    id: 3,
-    product_name: "Product A",
-    img: require("../../../../assets/images/temp/FormalCasualShirts/edited44.jpg"),
-    product_color: "Black",
-    price: 242,
-    availableSizes: ["S", "M", "L"]
-  },
-  {
-    id: 4,
-    product_name: "Product A",
-    img: require("../../../../assets/images/temp/FormalCasualShirts/edited74.jpg"),
-    product_color: "Black",
-    price: 100,
-    availableSizes: ["S", "M", "L"]
-  },
-  {
-    id: 5,
-    product_name: "Product A",
-    img: require("../../../../assets/images/temp/FormalCasualShirts/edited.jpg"),
-    product_color: "Black",
-    price: 390,
-    availableSizes: ["S", "M", "L"]
-  },
-  {
-    id: 6,
-    product_name: "Product A",
-    img: require("../../../../assets/images/temp/FormalCasualShirts/edited.jpg"),
-    product_color: "Black",
-    price: 260,
-    availableSizes: ["S", "M", "L"]
-  },
-  {
-    id: 7,
-    product_name: "Product A",
-    img: require("../../../../assets/images/temp/FormalCasualShirts/edited.jpg"),
-    product_color: "Black",
-    price: 240,
-    availableSizes: ["S", "M", "L"]
-  },
-  {
-    id: 8,
-    product_name: "Product A",
-    img: require("../../../../assets/images/temp/FormalCasualShirts/edited.jpg"),
-    product_color: "Black",
-    price: 240,
-    availableSizes: ["S", "M", "L"]
-  },
-  {
-    id: 9,
-    product_name: "Product A",
-    img: require("../../../../assets/images/temp/FormalCasualShirts/edited.jpg"),
-    product_color: "Black",
-    price: 240,
-    availableSizes: ["S", "M", "L"]
-  },
-  {
-    id: 10,
-    product_name: "Product A",
-    img: require("../../../../assets/images/temp/FormalCasualShirts/edited.jpg"),
-    product_color: "Black",
-    price: 240,
-    availableSizes: ["S", "M", "L"]
-  },
-  {
-    id: 11,
-    product_name: "Product A",
-    img: require("../../../../assets/images/temp/FormalCasualShirts/edited.jpg"),
-    product_color: "Black",
-    price: 320,
-    availableSizes: ["S", "M", "L"]
-  }
-];
 class ProductList extends Component {
   constructor(props) {
+    const { navigation } = props;
     super(props);
     this.state = {
       products: null,
       viewType: "ListView",
-      noColumns: 1
+      noColumns: 1,
+      filterBy: navigation.getParam("filterBy"),
+      productList: []
     };
     this.Item = this.Item.bind(this);
+  }
+  async componentDidMount() {
+    const { filterBy } = this.state;
+    var params = {
+      filterBy
+    };
+
+    var esc = encodeURIComponent;
+    var query = Object.keys(params)
+      .map(k => esc(k) + "=" + esc(params[k]))
+      .join("&");
+    const url = `https://wq3nngv3ch.execute-api.ap-south-1.amazonaws.com/dev/v1/products/?${query}`;
+    console.log("url: ", url);
+    const productList = await axios.get(url);
+    console.log("FeaturedProducts: ", productList.data.data);
+    this.setState({ productList: productList.data.data });
   }
 
   getSizeString = sizeList => {
@@ -131,15 +61,26 @@ class ProductList extends Component {
         sizeString = sizeString + "S, ";
       } else if (element === "M") {
         sizeString = sizeString + "M, ";
-      } else {
-        sizeString = sizeString + "L";
+      } else if (element === "L") {
+        sizeString = sizeString + "L, ";
+      } else if (element === "XL") {
+        sizeString = sizeString + "XL.";
       }
     });
     console.log("Size String: ", sizeString);
     return sizeString;
   };
 
-  Item = ({ id, src, name, price, sizeString, availableSizes }) => {
+  Item = ({
+    id,
+    src,
+    name,
+    price,
+    sizeString,
+    availableSizes,
+    color,
+    design
+  }) => {
     return (
       <TouchableOpacity
         style={styles.productContainer}
@@ -149,13 +90,15 @@ class ProductList extends Component {
             src,
             name,
             price,
-            availableSizes
+            availableSizes,
+            color,
+            design
           })
         }
       >
         <View>
           <Image
-            source={src}
+            source={{ uri: src[0], headers: { "Content-Encoding": "gzip" } }}
             style={{ resizeMode: "stretch", width: 150, height: "100%" }}
           ></Image>
         </View>
@@ -163,24 +106,31 @@ class ProductList extends Component {
           <Text
             style={{
               alignSelf: "flex-start",
-              marginTop: "10%",
+              marginTop: "5%",
               marginLeft: 25,
-              fontSize: normalize(17),
-              fontWeight: "500"
+              fontSize: normalize(14),
+              fontWeight: "500",
+              height: width * 0.13
             }}
           >
             {name}
           </Text>
           <Text
-            style={{ marginLeft: 25, marginTop: 9, fontSize: normalize(12) }}
+            style={{ marginLeft: 25, fontSize: normalize(11) }}
           >{`Available sizes: ${sizeString}`}</Text>
+          <Text
+            style={{ marginLeft: 25, marginTop: 9, fontSize: normalize(11) }}
+          >{`Color: ${color}`}</Text>
+          <Text
+            style={{ marginLeft: 25, marginTop: 9, fontSize: normalize(11) }}
+          >{`Design: ${design}`}</Text>
           <Text
             style={{
               alignSelf: "flex-start",
-              marginTop: "28%",
+              marginTop: 40,
               marginLeft: 25,
               fontSize: normalize(17),
-              fontWeight: "600"
+              fontWeight: "500"
             }}
           >{`${`\u20B9`}${price}`}</Text>
         </View>
@@ -189,7 +139,7 @@ class ProductList extends Component {
   };
 
   render() {
-    const { noColumns } = this.state;
+    const { noColumns, productList } = this.state;
     return (
       <SafeAreaView style={styles.container}>
         <GeneralStatusBarColor
@@ -226,7 +176,7 @@ class ProductList extends Component {
 
         <View style={{ flex: 1 }}>
           <FlatList
-            data={data}
+            data={productList}
             showsVerticalScrollIndicator={false}
             numColumns={noColumns}
             keyExtractor={item => item.id}
@@ -235,11 +185,13 @@ class ProductList extends Component {
               return (
                 <this.Item
                   id={item.id}
-                  src={item.img}
-                  name={item.product_name}
+                  src={item.src}
+                  name={item.name}
                   price={item.price}
                   availableSizes={item.availableSizes}
                   sizeString={sizeString}
+                  color={item.color}
+                  design={item.design}
                 ></this.Item>
               );
             }}
