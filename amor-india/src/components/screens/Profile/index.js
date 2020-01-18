@@ -93,10 +93,21 @@ class Profile extends Component {
               </View>
             </View>
           </View>
-          <View style={{ width: 400, flexDirection: "row" }}>
-            <TouchableOpacity>
-              <AntDesignIcons name="home" size={normalize(5)}></AntDesignIcons>
-              <Text style={{}}>Manage Addresses</Text>
+          <View style={{ width: 400, marginTop: 30 }}>
+            <TouchableOpacity
+              style={{ flexDirection: "row", alignSelf: "center" }}
+            >
+              <AntDesignIcons name="home" size={normalize(15)}></AntDesignIcons>
+              <Text
+                style={{
+                  flexDirection: "column",
+                  marginTop: 2,
+                  marginLeft: "1%",
+                  fontSize: normalize(15)
+                }}
+              >
+                Manage Addresses
+              </Text>
             </TouchableOpacity>
           </View>
           <View style={styles.buttons}>
