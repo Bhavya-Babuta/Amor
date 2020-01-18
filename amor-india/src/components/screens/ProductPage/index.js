@@ -13,7 +13,12 @@ import GeneralStatusBarColor from "../../components/GeneralStatusBarColor/Genera
 import { Platform, Dimensions, StatusBar } from "react-native";
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { addProductToCart } from "./actions";
 import { StackActions } from "react-navigation";
+import { updateProductCartQuantity } from "../../components/CartList/actions";
+import { constants } from "../../../../constants";
 
 const STATUSBAR_HEIGHT = Platform.OS === "ios" ? 20 : StatusBar.currentHeight;
 import { normalize } from "../../../../helper";
@@ -22,23 +27,32 @@ import Swiper from "react-native-swiper";
 class ProductPage extends Component {
   constructor(props) {
     const { navigation } = props;
-    console.log("Props: ", props);
+    console.log("Props start: ", props);
     super(props);
     this.state = {
       selectedNumber: 0,
       selectedSize: "M",
-      src: navigation.getParam("src"),
-      name: navigation.getParam("name"),
-      price: navigation.getParam("price"),
-      availableSizes: navigation.getParam("availableSizes"),
-      color: navigation.getParam("color"),
-      design: navigation.getParam("design")
+      item: navigation.getParam("item")
     };
-    console.log("Props: ", this.props.src);
+    console.log("Props end: ", this.props.src);
   }
 
+  incrementProductQuantity = value => {
+    const { selectedNumber } = this.state;
+    this.props.updateProductCartQuantity(value, constants.TASKS.INCREMENT);
+    this.setState({ selectedNumber: selectedNumber + 1 });
+  };
+  decrementProductQuantity = value => {
+    const { selectedNumber } = this.state;
+    this.props.updateProductCartQuantity(value, constants.TASKS.DECREMENT);
+    this.setState({ selectedNumber: selectedNumber - 1 });
+  };
+
   getSizesStack = () => {
-    const { selectedSize, availableSizes } = this.state;
+    const {
+      item: { availableSizes },
+      selectedSize
+    } = this.state;
     return availableSizes.map(element => (
       <TouchableOpacity
         style={{
@@ -62,15 +76,84 @@ class ProductPage extends Component {
     ));
   };
 
-  getSwiperImages = src => {
-    console.log("Src is: ", src);
-    return;
+  getActionButton = () => {
+    const {
+      item: { id, name, src, price },
+      selectedNumber,
+      selectedSize
+    } = this.state;
+    return selectedNumber === 0 ? (
+      <View style={{ marginLeft: "22%" }}>
+        <TouchableOpacity
+          style={{
+            alignSelf: "center"
+          }}
+          onPress={() => {
+            console.log("This props: ", this.props);
+            this.props.addProductToCart({
+              id,
+              name,
+              img: src[0],
+              price,
+              selectedSize,
+              quantity: selectedNumber + 1
+            });
+            this.setState({ selectedNumber: selectedNumber + 1 });
+          }}
+        >
+          <Text
+            style={{
+              fontSize: normalize(13),
+              paddingTop: 10,
+              paddingBottom: 10,
+              paddingRight: 20,
+              paddingLeft: 20,
+              alignSelf: "center",
+              borderWidth: 2
+            }}
+          >
+            Add to cart
+          </Text>
+        </TouchableOpacity>
+      </View>
+    ) : (
+      <View style={[styles.updateStack]}>
+        <TouchableOpacity
+          style={[styles.updateButton, styles.radiusLeft]}
+          onPress={() => {
+            this.decrementProductQuantity(id);
+          }}
+        >
+          <Text style={styles.updateButtonText}>-</Text>
+        </TouchableOpacity>
+        <View
+          style={{
+            width: 45,
+            height: 30,
+            marginTop: "4%"
+          }}
+        >
+          <Text style={styles.quantityText}>{selectedNumber}</Text>
+        </View>
+        <TouchableOpacity
+          style={[styles.updateButton, styles.raduisRight]}
+          onPress={() => {
+            this.incrementProductQuantity(id);
+          }}
+        >
+          <Text style={styles.updateButtonText}>+</Text>
+        </TouchableOpacity>
+      </View>
+    );
   };
 
   render() {
-    const { src, name, price, design, color } = this.state;
+    const {
+      item: { src, name, price, color }
+    } = this.state;
     console.log("Source is: ", src);
     console.log("Color: ", color);
+    console.log("Props: ", this.props);
     return (
       <SafeAreaView style={styles.container}>
         <GeneralStatusBarColor
@@ -151,27 +234,7 @@ class ProductPage extends Component {
               <View style={{ flexDirection: "row", alignSelf: "center" }}>
                 {this.getSizesStack()}
               </View>
-              <View style={{ marginLeft: "22%" }}>
-                <TouchableOpacity
-                  style={{
-                    alignSelf: "center"
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: normalize(13),
-                      paddingTop: 10,
-                      paddingBottom: 10,
-                      paddingRight: 20,
-                      paddingLeft: 20,
-                      alignSelf: "center",
-                      borderWidth: 2
-                    }}
-                  >
-                    Add to cart
-                  </Text>
-                </TouchableOpacity>
-              </View>
+              {this.getActionButton()}
             </View>
             <View
               style={{
@@ -200,7 +263,20 @@ class ProductPage extends Component {
     );
   }
 }
-export default ProductPage;
+const mapStateToProps = state => {
+  return { cart: state.cart };
+};
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      addProductToCart,
+      updateProductCartQuantity
+    },
+    dispatch
+  );
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductPage);
 
 const styles = StyleSheet.create({
   container: {
@@ -246,12 +322,13 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: "#CDCDCD",
     borderRadius: 4,
-    height: "100%"
+    height: "100%",
+    marginLeft: "22%"
   },
   updateButton: {
     width: 35,
     height: "100%",
-    backgroundColor: "powderblue"
+    backgroundColor: "#CDCDCD"
   },
   quantityText: {
     alignSelf: "center",
@@ -262,6 +339,7 @@ const styles = StyleSheet.create({
   updateButtonText: {
     fontSize: normalize(25),
     alignSelf: "center",
-    fontWeight: "100"
+    fontWeight: "100",
+    marginTop: "7%"
   }
 });

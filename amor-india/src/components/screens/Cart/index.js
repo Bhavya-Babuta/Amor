@@ -57,7 +57,8 @@ class Cart extends Component {
       total = total + element.quantity * element.price;
     });
     console.log("subtotal: ", total);
-    this.setState({ finalAmount: (tax + total).toFixed(2) });
+    total = total || 0;
+    this.setState({ finalAmount: (tax + total || 0).toFixed(2) });
     this.setState({ total: total.toFixed(2) });
   }
 

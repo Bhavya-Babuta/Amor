@@ -46,15 +46,12 @@ class ContactUs extends Component {
         </View>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={{ width: "100%" }}>
-            <Text style={{ fontSize: 25, marginTop: 20, alignSelf: "center" }}>
+            <Text style={{ fontSize: 25, marginTop: 50, alignSelf: "center" }}>
               Get in touch with us
-            </Text>
-            <Text style={{ fontSize: 20, marginTop: 20, alignSelf: "center" }}>
-              We value your opinion
             </Text>
           </View>
         </TouchableWithoutFeedback>
-        <View style={{ marginTop: 90 }}>
+        <View style={{ marginTop: 70 }}>
           <TouchableOpacity
             style={{
               borderWidth: 2,

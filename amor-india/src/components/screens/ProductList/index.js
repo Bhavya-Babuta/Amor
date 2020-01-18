@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { CheckBox } from "react-native-elements";
 import {
   View,
   Text,
@@ -9,8 +10,10 @@ import {
   Image,
   Button,
   Platform,
-  StatusBar
+  StatusBar,
+  Modal
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import SearchBarComponent from "../../screens/SearchBarComponent";
 import GeneralStatusBarColor from "../../components/GeneralStatusBarColor/GeneralStatusBarColor";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -32,7 +35,9 @@ class ProductList extends Component {
       viewType: "ListView",
       noColumns: 1,
       filterBy: navigation.getParam("filterBy"),
-      productList: []
+      productList: [],
+      isVisible: false,
+      checked: false
     };
     this.Item = this.Item.bind(this);
   }
@@ -64,42 +69,30 @@ class ProductList extends Component {
       } else if (element === "L") {
         sizeString = sizeString + "L, ";
       } else if (element === "XL") {
-        sizeString = sizeString + "XL.";
+        sizeString = sizeString + "XL";
       }
     });
     console.log("Size String: ", sizeString);
     return sizeString;
   };
 
-  Item = ({
-    id,
-    src,
-    name,
-    price,
-    sizeString,
-    availableSizes,
-    color,
-    design
-  }) => {
+  Item = ({ item, sizeString }) => {
     return (
       <TouchableOpacity
         style={styles.productContainer}
         onPress={() =>
           this.props.navigation.navigate("ProductPage", {
-            id,
-            src,
-            name,
-            price,
-            availableSizes,
-            color,
-            design
+            item
           })
         }
       >
         <View>
           <Image
-            source={{ uri: src[0], headers: { "Content-Encoding": "gzip" } }}
-            style={{ resizeMode: "stretch", width: 150, height: "100%" }}
+            source={{
+              uri: item.src[0],
+              headers: { "Content-Encoding": "gzip" }
+            }}
+            style={{ resizeMode: "cover", width: 150, height: "100%" }}
           ></Image>
         </View>
         <View style={{ flexDirection: "column", flex: 1 }}>
@@ -113,26 +106,24 @@ class ProductList extends Component {
               height: width * 0.13
             }}
           >
-            {name}
+            {item.name}
           </Text>
           <Text
             style={{ marginLeft: 25, fontSize: normalize(11) }}
           >{`Available sizes: ${sizeString}`}</Text>
           <Text
             style={{ marginLeft: 25, marginTop: 9, fontSize: normalize(11) }}
-          >{`Color: ${color}`}</Text>
-          <Text
-            style={{ marginLeft: 25, marginTop: 9, fontSize: normalize(11) }}
-          >{`Design: ${design}`}</Text>
+          >{`Color: ${item.color}`}</Text>
+
           <Text
             style={{
               alignSelf: "flex-start",
               marginTop: 40,
               marginLeft: 25,
-              fontSize: normalize(17),
+              fontSize: normalize(13),
               fontWeight: "500"
             }}
-          >{`${`\u20B9`}${price}`}</Text>
+          >{`${`\u20B9`}${item.price}`}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -158,8 +149,54 @@ class ProductList extends Component {
                 marginTop: 10
               }}
             >
-              <View style={{ alignSelf: "centre", flex: 1 }}>
+              <Modal
+                animationType={"fade"}
+                transparent={false}
+                visible={this.state.isVisible}
+                onRequestClose={() => {
+                  console.log("Modal has been closed.");
+                }}
+              >
+                {/*All views of Modal*/}
+                <View style={styles.modal}>
+                  <Ionicons
+                    name="md-close"
+                    size={32}
+                    color="green"
+                    style={{ alignSelf: "flex-end", marginRight: 10 }}
+                    onPress={() => {
+                      this.setState({ isVisible: !this.state.isVisible });
+                    }}
+                  />
+                  <Text style={{ alignSelf: "center", fontSize: 20 }}>
+                    Sort By
+                  </Text>
+                  <CheckBox
+                    title="Price"
+                    checked={this.state.checked}
+                    onPress={() =>
+                      this.setState({ checked: !this.state.checked })
+                    }
+                  ></CheckBox>
+                  <TouchableOpacity
+                    style={{
+                      alignSelf: "center",
+                      borderRadius: 4,
+                      marginTop: 20,
+                      padding: 10,
+                      borderWidth: 0.5,
+                      borderColor: "#d6d7da"
+                    }}
+                  >
+                    <Text>Apply</Text>
+                  </TouchableOpacity>
+                </View>
+              </Modal>
+              <View style={{ alignSelf: "center", flex: 1 }}>
                 <TouchableOpacity
+                  onPress={() => {
+                    this.setState({ isVisible: true });
+                  }}
                   style={
                     ([styles.viewButonStyles],
                     {
@@ -183,16 +220,7 @@ class ProductList extends Component {
             renderItem={({ item }) => {
               const sizeString = this.getSizeString(item.availableSizes);
               return (
-                <this.Item
-                  id={item.id}
-                  src={item.src}
-                  name={item.name}
-                  price={item.price}
-                  availableSizes={item.availableSizes}
-                  sizeString={sizeString}
-                  color={item.color}
-                  design={item.design}
-                ></this.Item>
+                <this.Item item={item} sizeString={sizeString}></this.Item>
               );
             }}
           ></FlatList>

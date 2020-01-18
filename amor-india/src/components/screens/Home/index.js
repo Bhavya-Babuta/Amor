@@ -152,9 +152,11 @@ class Home extends Component {
                         this.props.navigation.navigate("ProductPageHome", {
                           name: item.name,
                           src: item.src,
-                          name: item.name,
                           availableSizes: item.availableSizes,
-                          price: item.price
+                          price: item.price,
+                          id: item.id,
+                          color: item.color,
+                          design: item.design
                         });
                       }}
                     >

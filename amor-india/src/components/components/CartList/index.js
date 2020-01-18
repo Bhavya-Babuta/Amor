@@ -38,8 +38,16 @@ class CartList extends React.Component {
         horizontal={true}
         renderItem={({ item }) => (
           <View style={styles.listItem}>
-            <Image style={styles.image} source={item.img} />
-            <Text style={styles.productName}>{item.name}</Text>
+            <Image
+              style={styles.image}
+              source={{
+                uri: item.img,
+                headers: { "Content-Encoding": "gzip" }
+              }}
+            />
+            <Text
+              style={styles.productName}
+            >{`${item.name} (${item.selectedSize})`}</Text>
             <View style={styles.updateStack}>
               <TouchableOpacity
                 style={[styles.updateButton, styles.radiusLeft]}
