@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import styles from "./styles";
 import GeneralStatusBarColor from "../../components/GeneralStatusBarColor/GeneralStatusBarColor";
+import AntDesignIcons from "react-native-vector-icons/AntDesign";
+import { normalize } from "../../../../helper";
 
 class Profile extends Component {
   constructor(props) {
@@ -51,7 +53,7 @@ class Profile extends Component {
           </View>
 
           <View
-            style={{ marginLeft: 40, marginBottom: 25, marginTop: 20, flex: 5 }}
+            style={{ marginLeft: 40, marginBottom: 25, marginTop: 10, flex: 5 }}
           >
             <View>
               <View>
@@ -90,6 +92,12 @@ class Profile extends Component {
                 />
               </View>
             </View>
+          </View>
+          <View style={{ width: 400, flexDirection: "row" }}>
+            <TouchableOpacity>
+              <AntDesignIcons name="home" size={normalize(5)}></AntDesignIcons>
+              <Text style={{}}>Manage Addresses</Text>
+            </TouchableOpacity>
           </View>
           <View style={styles.buttons}>
             <TouchableOpacity style={styles.saveButton}>

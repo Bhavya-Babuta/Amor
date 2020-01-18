@@ -16,8 +16,8 @@
     "serverless-dotenv-plugin": "^2.1.1"
   },
   "scripts": {
-    "deploy": "sls deploy --env dev",
-    "start": "sls offline start --env dev"
+    "deploy": "sls deploy --env dev --aws-profile babutabhavyaDev --force",
+    "start": "sls offline start --env dev --aws-profile babutabhavyaDev"
   },
   "author": "",
   "license": "ISC"

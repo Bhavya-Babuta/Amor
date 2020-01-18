@@ -24,7 +24,7 @@ export default StyleSheet.create({
     borderRadius: 63,
     borderWidth: 4,
     borderColor: "white",
-    marginBottom: 10
+    marginBottom: 5
   },
   name: {
     fontSize: 22,
@@ -39,8 +39,9 @@ export default StyleSheet.create({
   textField: {
     backgroundColor: "#ffffff",
     width: width * 0.8,
-    padding: 15,
+    padding: 13,
     borderWidth: 0.5,
+    marginTop: 2,
     marginBottom: 15,
     borderRadius: 5,
     fontFamily: "AvenirNext-Medium",

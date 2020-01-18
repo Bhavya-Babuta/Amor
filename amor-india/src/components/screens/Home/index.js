@@ -150,13 +150,7 @@ class Home extends Component {
                       style={styles.highlightedProducts}
                       onPress={() => {
                         this.props.navigation.navigate("ProductPageHome", {
-                          name: item.name,
-                          src: item.src,
-                          availableSizes: item.availableSizes,
-                          price: item.price,
-                          id: item.id,
-                          color: item.color,
-                          design: item.design
+                          item
                         });
                       }}
                     >

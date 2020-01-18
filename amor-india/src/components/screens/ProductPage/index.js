@@ -19,6 +19,7 @@ import { addProductToCart } from "./actions";
 import { StackActions } from "react-navigation";
 import { updateProductCartQuantity } from "../../components/CartList/actions";
 import { constants } from "../../../../constants";
+import AntDesignIcons from "react-native-vector-icons/AntDesign";
 
 const STATUSBAR_HEIGHT = Platform.OS === "ios" ? 20 : StatusBar.currentHeight;
 import { normalize } from "../../../../helper";
@@ -30,12 +31,34 @@ class ProductPage extends Component {
     console.log("Props start: ", props);
     super(props);
     this.state = {
-      selectedNumber: 0,
-      selectedSize: "M",
-      item: navigation.getParam("item")
+      selectedNumber:
+        navigation.getParam("selectedSize") ||
+        this.getSelectedNumber(
+          navigation.getParam("item"),
+          this.props.cart.currentValue
+        ),
+      selectedSize: navigation.getParam("selectedSize") || "M",
+      item: navigation.getParam("item"),
+      descriptionModalShow: false,
+      cartProducts: this.props.cart.currentValue
     };
-    console.log("Props end: ", this.props.src);
+    console.log("Props end: ", this.state.cartProducts);
   }
+
+  static getDerivedStateFromProps(newProps, prevState) {
+    const { total } = newProps;
+    return total || null;
+  }
+
+  getSelectedNumber = (item, cartProducts) => {
+    let selectedNumber = 0;
+    cartProducts.forEach(element => {
+      if (element.name === item.name) {
+        selectedNumber += 1;
+      }
+    });
+    return selectedNumber;
+  };
 
   incrementProductQuantity = value => {
     const { selectedNumber } = this.state;
@@ -46,6 +69,29 @@ class ProductPage extends Component {
     const { selectedNumber } = this.state;
     this.props.updateProductCartQuantity(value, constants.TASKS.DECREMENT);
     this.setState({ selectedNumber: selectedNumber - 1 });
+  };
+
+  getProductDescription = () => {
+    const { item } = this.state;
+    return Object.keys(item).map(element => {
+      if (!["name", "price", "id", "featured", "src"].includes(element)) {
+        return (
+          <View style={{ padding: 2 }}>
+            <Text style={{ fontSize: normalize(13), fontWeight: "500" }}>
+              {`${this.getKeyString(element)} : `}
+              <Text
+                style={{
+                  fontSize: normalize(12),
+                  marginLeft: "2%",
+                  padding: 10,
+                  fontWeight: "300"
+                }}
+              >{`${item[element]}`}</Text>
+            </Text>
+          </View>
+        );
+      }
+    });
   };
 
   getSizesStack = () => {
@@ -147,13 +193,35 @@ class ProductPage extends Component {
     );
   };
 
+  getKeyString(key) {
+    const keyString = key
+      .replace("_", " ")
+      .toLowerCase()
+      .split(" ");
+    for (var i = 0; i < keyString.length; i++) {
+      keyString[i] =
+        keyString[i].charAt(0).toUpperCase() + keyString[i].slice(1);
+    }
+    return keyString.join(" ");
+  }
+
   render() {
     const {
-      item: { src, name, price, color }
+      item: { src, name, price, color },
+      item,
+      descriptionModalShow
     } = this.state;
     console.log("Source is: ", src);
     console.log("Color: ", color);
-    console.log("Props: ", this.props);
+    console.log("Items: ", item);
+    const keys = Object.keys(item);
+    const values = Object.values(item);
+    console.log("Keys: ", keys);
+    keys.forEach(element => {
+      const keyString = this.getKeyString(element);
+      console.log(`${keyString}`);
+    });
+
     return (
       <SafeAreaView style={styles.container}>
         <GeneralStatusBarColor
@@ -236,26 +304,46 @@ class ProductPage extends Component {
               </View>
               {this.getActionButton()}
             </View>
-            <View
+            <TouchableOpacity
               style={{
+                borderWidth: 0.3,
                 marginTop: 20,
-                marginBottom: 20,
-                width: WIDTH * 0.8,
-                alignSelf: "center"
+                backgroundColor: "#CDCDCD",
+                flexDirection: "row"
+              }}
+              onPress={() => {
+                this.setState({ descriptionModalShow: !descriptionModalShow });
               }}
             >
-              <Text style={{ textAlign: "justify", fontSize: normalize(13) }}>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was
-                popularised in the 1960s with the release of Letraset sheets
-                containing Lorem Ipsum passages, and more recently with desktop
-                publishing software like Aldus PageMaker including versions of
-                Lorem Ipsum.
+              <Text
+                style={{
+                  fontSize: normalize(18),
+                  marginLeft: "2%",
+                  fontWeight: "400",
+                  padding: 15
+                }}
+              >
+                Product Description
               </Text>
+              <AntDesignIcons
+                name="caretdown"
+                size={normalize(18)}
+                style={{ marginTop: "3%", marginLeft: "25%" }}
+              ></AntDesignIcons>
+            </TouchableOpacity>
+            <View
+              style={
+                descriptionModalShow
+                  ? {
+                      marginTop: 20,
+                      marginBottom: 20,
+                      width: WIDTH * 0.8,
+                      alignSelf: "center"
+                    }
+                  : { display: "none" }
+              }
+            >
+              {this.getProductDescription()}
             </View>
           </View>
         </ScrollView>

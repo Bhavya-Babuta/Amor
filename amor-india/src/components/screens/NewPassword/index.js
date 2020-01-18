@@ -48,14 +48,14 @@ class NewPassword extends Component {
     const { password, confirmPassword } = this.state;
     return (
       <ImageBackground
-        source={require("../../../../assets/images/splash.png")}
+        source={require("../../../../assets/images/amorbranding.jpg")}
         style={styles.background}
       >
         <SafeAreaView style={styles.container}>
           <View style={styles.imageView}>
             <Image
               style={styles.logo}
-              source={require("../../../../assets/images/splash.png")}
+              source={require("../../../../assets/images/amorbranding.jpg")}
             />
           </View>
           <View style={styles.inputView}>
