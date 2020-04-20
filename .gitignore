@@ -396,3 +396,6 @@ assets/
 *.pdf
 database/
 practice/
+Resources/
+.expo-shared/
+amor-india/constants/config.js
