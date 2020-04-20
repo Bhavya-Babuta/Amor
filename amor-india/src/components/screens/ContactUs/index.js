@@ -5,11 +5,9 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Image,
-  TextInput,
   TouchableWithoutFeedback,
   Keyboard,
-  Button,
-  Linking
+  Linking,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import styles from "./styles";
@@ -17,8 +15,8 @@ import GeneralStatusBarColor from "../../components/GeneralStatusBarColor/Genera
 
 class ContactUs extends Component {
   _handleCall = () => {
-    const url = `tel:+917303548585`;
-    Linking.canOpenURL(url).then(supported => {
+    const url = `tel:+919999050671`;
+    Linking.canOpenURL(url).then((supported) => {
       if (supported) {
         return Linking.openURL(url).catch(() => null);
       }
@@ -57,14 +55,14 @@ class ContactUs extends Component {
               borderWidth: 2,
               borderColor: "black",
               width: "60%",
-              alignSelf: "center"
+              alignSelf: "center",
             }}
           >
             <Text
               style={{ padding: 20, alignSelf: "center" }}
-              onPress={() => Linking.openURL("mailto:support@example.com")}
+              onPress={() => Linking.openURL("mailto:amorapparels@gmail.com")}
             >
-              Mail: care@amorindia.com
+              Mail: amorapparels@gmail.com
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -73,14 +71,32 @@ class ContactUs extends Component {
               borderColor: "black",
               width: "60%",
               alignSelf: "center",
-              marginTop: 50
+              marginTop: 50,
             }}
           >
             <Text
               style={{ padding: 20, alignSelf: "center" }}
               onPress={this._handleCall}
             >
-              Phone: +917303548585
+              Phone: +919999050671
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              borderWidth: 2,
+              borderColor: "black",
+              width: "60%",
+              alignSelf: "center",
+              marginTop: 50,
+            }}
+          >
+            <Text
+              style={{ padding: 20, alignSelf: "center" }}
+              onPress={() => {
+                Linking.openURL("whatsapp://send?text=&phone=+919999050671");
+              }}
+            >
+              Whatsapp: +919999050671
             </Text>
           </TouchableOpacity>
         </View>

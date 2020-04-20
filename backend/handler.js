@@ -1,56 +1,65 @@
 "use strict";
 var response = require("./utils/response.js");
 const dbHelper = require("./utils/pg.js");
-const uuid = require("uuid/v4");
+const { getBannerImages } = require("./utils/s3");
+const { orders_all } = require("./data");
 
-const availableSizes = ["S", "M", "L", "XL"];
-const price = 500;
-const desc = "High Quality Tie.";
-const { products_all } = require("./data");
-const { getSignedUrl } = require("./utils/s3");
+module.exports.products = async (event) => {
+  try {
+    let featured = null;
+    let category = null;
 
-module.exports.products = async event => {
-  let filterBy = null;
-  if (event && event.queryStringParameters) {
-    if (event.queryStringParameters.filterBy) {
-      filterBy = event.queryStringParameters.filterBy;
-    }
-  }
-  console.log("FilterBy: ", filterBy);
-  let retval = [];
-  if (filterBy !== "featured") {
-    for (const element of products_all) {
-      console.log("Element: ", element);
-      if (element.category === filterBy) {
-        element.availableSizes = availableSizes;
-        element.id = uuid();
-        element.price = price;
-        element.desc = desc;
-        retval.push(element);
+    if (event && event.queryStringParameters) {
+      if (event.queryStringParameters.featured) {
+        featured = Number(event.queryStringParameters.featured);
       }
     }
-  } else if (filterBy === "featured") {
-    for (const element of products_all) {
-      console.log("Element: ", element);
-
-      if (element.featured) {
-        element.availableSizes = availableSizes;
-        element.id = uuid();
-        element.price = price;
-        element.desc = desc;
-        retval.push(element);
+    if (event && event.queryStringParameters) {
+      if (event.queryStringParameters.category) {
+        category = event.queryStringParameters.category;
       }
     }
+    let retval = [];
+    const client = await dbHelper.connectToDatabase();
+    if (category) {
+      retval = await dbHelper.getCategoryProducts(client, category);
+    }
+    if (featured && featured === 1) {
+      retval = await dbHelper.getFeaturedProducts(client);
+    }
+    return response.success({
+      data: retval,
+    });
+  } catch (error) {
+    return response.failure({ error: error.message });
   }
-  return response.success({
-    data: retval
-  });
 };
 
 module.exports.categories = async (event, context, callback) => {
-  const url = await getSignedUrl("11.jpg");
-  const categories = await dbHelper
-    .connectToDatabase()
-    .then(async client => await dbHelper.getAllCategories(client));
-  return response.success({ data: { categories } });
+  try {
+    const categories = await dbHelper
+      .connectToDatabase()
+      .then(async (client) => await dbHelper.getAllCategories(client));
+    return response.success({ data: { categories } });
+  } catch (error) {
+    return response.failure({ error: error.message });
+  }
+};
+
+module.exports.homeBanner = async (event, context, callback) => {
+  try {
+    const retval = await getBannerImages();
+    return response.success({ data: { retval } });
+  } catch (error) {
+    return response.failure({ error: error.message });
+  }
+};
+
+module.exports.previousOrders = async (event, context, callback) => {
+  const orderId =
+    (event.queryStringParameters && event.queryStringParameters.orderId) ||
+    null;
+  return response.success({
+    data: orders_all,
+  });
 };

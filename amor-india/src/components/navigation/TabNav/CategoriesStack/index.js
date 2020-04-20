@@ -3,18 +3,19 @@ import { createStackNavigator } from "react-navigation-stack";
 import Categories from "../../../screens/Categories";
 import ProductPage from "../../../screens/ProductPage";
 import ProductList from "../../../screens/ProductList";
+import Filters from "../../../screens/Filters";
 
 const Category = createStackNavigator(
   {
     Categories: { screen: Categories },
     ProductPage: { screen: ProductPage },
-    ProductList: { screen: ProductList }
+    ProductList: { screen: ProductList },
+    Filters: { screen: Filters },
   },
   {
     headerMode: "none",
-    initialRouteName: "Categories"
+    initialRouteName: "Categories",
   }
 );
 
-const CategoriesStack = createAppContainer(Category);
-export default CategoriesStack;
+export default createAppContainer(Category);

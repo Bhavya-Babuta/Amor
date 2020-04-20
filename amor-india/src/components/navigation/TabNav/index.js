@@ -1,7 +1,7 @@
 import React from "react";
 import { createAppContainer } from "react-navigation";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import SideDrawer from "./SideDrawer";
 import CategoriesStack from "./CategoriesStack";
 import CartStack from "./CartStack";
@@ -12,7 +12,7 @@ const Tab = createMaterialBottomTabNavigator(
     Home: { screen: SideDrawer },
     Categories: { screen: CategoriesStack },
     Profile: { screen: ProfileStack },
-    Cart: { screen: CartStack }
+    Cart: { screen: CartStack },
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -36,7 +36,7 @@ const Tab = createMaterialBottomTabNavigator(
             size={25}
           />
         );
-      }
+      },
     }),
     tabBarOnPress: ({ navigation, defaultHandler }) => {
       defaultHandler();
@@ -48,8 +48,9 @@ const Tab = createMaterialBottomTabNavigator(
     inactiveColor: "white",
     barStyle: { backgroundColor: "#253037" },
     backBehavior: "order",
-    lazy: false
+    lazy: false,
   }
 );
+
 const TabNav = createAppContainer(Tab);
 export default TabNav;

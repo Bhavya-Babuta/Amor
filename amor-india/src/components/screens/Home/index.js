@@ -4,7 +4,7 @@ import {
   Text,
   TouchableOpacity,
   SafeAreaView,
-  Image
+  Image,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { ScrollView, FlatList } from "react-native-gesture-handler";
@@ -14,7 +14,10 @@ import SearchBarComponent from "../SearchBarComponent";
 import GeneralStatusBarColor from "../../components/GeneralStatusBarColor/GeneralStatusBarColor";
 import axios from "axios";
 import { normalize } from "react-native-elements";
-const uuid = require("uuid/v4");
+import Loader from "../Loader";
+// import Image from "react-native-image-progress";
+import { connect } from "react-redux";
+import uuid from "uuid/v4";
 
 class Home extends Component {
   constructor(props) {
@@ -23,11 +26,14 @@ class Home extends Component {
       loading: true,
       activeIndex: 0,
       categories: null,
-      featuredProducts: []
+      featuredProducts: [],
+      bannerImages: [],
+      loading: true,
+      imageLoading: [],
     };
   }
 
-  _renderItem({ item, index }) {
+  Item({ item, index }) {
     return (
       <TouchableOpacity style={styles.topCategories}>
         <Image style={styles.topCategoriesImage} source={item.img} />
@@ -38,19 +44,48 @@ class Home extends Component {
 
   async componentDidMount() {
     const categoriesResult = await axios.get(
-      "https://wq3nngv3ch.execute-api.ap-south-1.amazonaws.com/dev/v1/categories"
+      "https://8h6jihqtuj.execute-api.ap-south-1.amazonaws.com/dev/v1/categories"
     );
-    this.setState({ categories: categoriesResult.data.data.categories });
+    await this.setState({ categories: categoriesResult.data.data.categories });
     const featuredProductsResult = await axios.get(
-      "https://wq3nngv3ch.execute-api.ap-south-1.amazonaws.com/dev/v1/products/?filterBy=featured"
+      "https://8h6jihqtuj.execute-api.ap-south-1.amazonaws.com/dev/v1/products?featured=1"
     );
-    console.log("FeaturedProducts: ", featuredProductsResult.data.data);
-    this.setState({ featuredProducts: featuredProductsResult.data.data });
+    await this.setState({ featuredProducts: featuredProductsResult.data.data });
+    const bannerImages = await this.getBannerImages();
+    await this.setState({ bannerImages });
+    await this.setState({ loading: false });
   }
 
+  getBannerImages = async () => {
+    return await axios
+      .get(
+        "https://8h6jihqtuj.execute-api.ap-south-1.amazonaws.com/dev/v1/home/banner"
+      )
+      .then((result) => result.data.data.retval);
+  };
+
+  getSwiperImages = () => {
+    const { bannerImages } = this.state;
+    return bannerImages.map((element) => {
+      return (
+        <View style={styles.slide1}>
+          <Image
+            style={styles.image}
+            source={{
+              uri: element.bannerImageSrc,
+              headers: { "Accept-Encoding": "gzip" },
+            }}
+          ></Image>
+        </View>
+      );
+    });
+  };
+
   render() {
-    const { categories, featuredProducts } = this.state;
-    console.log("Featured products here: ", featuredProducts);
+    const { categories, featuredProducts, bannerImages, loading } = this.state;
+    if (loading) {
+      return <Loader visible={loading}></Loader>;
+    }
     return (
       <SafeAreaView style={styles.container}>
         <GeneralStatusBarColor
@@ -62,6 +97,7 @@ class Home extends Component {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
           stickyHeaderIndices={[1]}
+          key={uuid()}
         >
           <View style={styles.header}>
             <Icon
@@ -77,40 +113,56 @@ class Home extends Component {
           </View>
           <SearchBarComponent />
           <View style={styles.wrapper}>
-            <Swiper
-              showsButtons={false}
-              autoplay={true}
-              paginationStyle={{ marginTop: 100 }}
-            >
-              <View style={styles.slide1}>
-                <Image
-                  style={styles.image}
-                  source={require("../../../../assets/images/img710.jpg")}
-                ></Image>
-              </View>
-              <View style={styles.slide2}>
-                <Image
-                  style={styles.image}
-                  source={require("../../../../assets/images/amor-tags.jpg")}
-                ></Image>
-              </View>
-              <View style={styles.slide3}>
-                <Image
-                  style={styles.image}
-                  source={require("../../../../assets/images/amor-jeans.jpg")}
-                ></Image>
-              </View>
-            </Swiper>
+            {bannerImages && bannerImages.length > 0 ? (
+              <Swiper
+                showsButtons={false}
+                autoplay={true}
+                paginationStyle={{ marginTop: 100 }}
+                loop={true}
+                key={uuid()}
+              >
+                <View style={styles.slide1}>
+                  <Image
+                    style={styles.image}
+                    source={{
+                      uri: bannerImages[0].bannerImageSrc,
+                      headers: { "Accept-Encoding": "gzip" },
+                    }}
+                  ></Image>
+                </View>
+                <View style={styles.slide1}>
+                  <Image
+                    style={styles.image}
+                    source={{
+                      uri: bannerImages[1].bannerImageSrc,
+                      headers: { "Accept-Encoding": "gzip" },
+                    }}
+                  ></Image>
+                </View>
+                <View style={styles.slide1}>
+                  <Image
+                    style={styles.image}
+                    source={{
+                      uri: bannerImages[2].bannerImageSrc,
+                      headers: { "Accept-Encoding": "gzip" },
+                    }}
+                  ></Image>
+                </View>
+              </Swiper>
+            ) : (
+              []
+            )}
           </View>
           <Text style={styles.topText}>Browse by Categories</Text>
           <FlatList
             data={categories}
+            keyExtractor={(item) => item.category_id}
             renderItem={({ item }) => (
               <TouchableOpacity
                 style={styles.itemContainer}
                 onPress={() =>
                   this.props.navigation.navigate("ProductListHome", {
-                    filterBy: item.category_name
+                    category: item.category_name,
                   })
                 }
               >
@@ -121,14 +173,13 @@ class Home extends Component {
                     paddingTop: 18,
                     alignSelf: "center",
                     fontSize: normalize(10),
-                    fontWeight: "500"
+                    fontWeight: "500",
                   }}
                 >
                   {item.category_name}
                 </Text>
               </TouchableOpacity>
             )}
-            keyExtractor={item => item.id}
             numColumns={2}
           />
           <View style={{ marginBottom: 20 }}>
@@ -136,21 +187,19 @@ class Home extends Component {
             {featuredProducts.length !== 0 ? (
               <FlatList
                 data={featuredProducts}
-                //   horizontal={true}
-                //   showsHorizontalScrollIndicator={true}
                 numColumns={2}
                 style={styles.highlightedProductsFlatlist}
                 columnWrapperStyle={
                   styles.highlightedProductsFlatlistColumnWrapper
                 }
+                keyExtractor={(item) => item.id}
                 renderItem={({ item }) => {
-                  console.log("Item: ", item);
                   return (
                     <TouchableOpacity
                       style={styles.highlightedProducts}
                       onPress={() => {
                         this.props.navigation.navigate("ProductPageHome", {
-                          item
+                          item,
                         });
                       }}
                     >
@@ -158,15 +207,17 @@ class Home extends Component {
                         <Image
                           style={styles.highlightedProductsImage}
                           source={{
-                            uri: item.src[0],
-                            headers: { "Content-Encoding": "gzip" }
+                            uri: `https://d182bv3lioi4mj.cloudfront.net${item.src[0]}`,
+                            headers: { "Accept-Encoding": "gzip" },
                           }}
                         />
                       ) : null}
                       <View
                         style={{
                           flex: 1,
-                          height: 70
+                          justifyContent: "space-evenly",
+                          alignItems: "center",
+                          padding: 5,
                         }}
                       >
                         <Text style={styles.nameText}>{item.name}</Text>
@@ -177,7 +228,6 @@ class Home extends Component {
                     </TouchableOpacity>
                   );
                 }}
-                keyExtractor={(item, index) => uuid()}
               />
             ) : null}
           </View>
@@ -186,4 +236,9 @@ class Home extends Component {
     );
   }
 }
-export default Home;
+
+const mapStateToProps = (state) => {
+  return { user: state.user };
+};
+
+export default connect(mapStateToProps, null)(Home);

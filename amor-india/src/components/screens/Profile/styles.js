@@ -49,7 +49,6 @@ export default StyleSheet.create({
   },
   saveButton: {
     borderWidth: 2,
-    borderColor: "black",
     width: "40%",
     alignSelf: "center"
   }

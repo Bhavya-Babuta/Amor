@@ -1,10 +1,4 @@
 import { Auth } from "aws-amplify";
-var AWS = require("aws-sdk");
-var s3 = new AWS.S3({
-  accessKeyId: "AKIAIQRBRLRKMMRRFWOA",
-  secretAccessKey: "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",
-  region: "ap-south-1"
-});
 import { PixelRatio, Platform, Dimensions } from "react-native";
 const WIDTH = Dimensions.get("window").width;
 
@@ -18,7 +12,7 @@ export function normalize(size) {
   }
 }
 
-export const getSearchString = obj => {
+export const getSearchString = (obj) => {
   const parts = [];
 
   Object.keys(obj).forEach(function nestedObject(element) {
@@ -36,13 +30,13 @@ export const getSearchString = obj => {
   return parts.join("&");
 };
 
-export const decode = queryString => {
+export const decode = (queryString) => {
   const queryStringPieces = queryString
     .replace(/%20/, " ")
     .replace(/%20/, " ")
     .split("&");
   const decodedQueryString = {};
-  queryStringPieces.forEach(piece => {
+  queryStringPieces.forEach((piece) => {
     let [key, value] = piece.split("=");
     if (/^\d+$/.test(value)) {
       value = Number(value);
@@ -85,23 +79,4 @@ export async function isUserLoggedIn() {
   } catch (error) {
     console.log("Error: ", error);
   }
-}
-
-export function getS3BucketObject() {
-  return new Promise(function(resolve, reject) {
-    var params = {
-      Bucket: "amorindia",
-      Key: "11.jpg"
-    };
-    s3.headObject(params)
-      .promise()
-      .then(function(data) {
-        console.log("s3 File exists" + data);
-        resolve(s3.getSignedUrl("getObject", params));
-      })
-      .catch(function(err) {
-        console.log("Generating Presigned Link ... Failed" + err);
-        resolve("");
-      });
-  });
 }

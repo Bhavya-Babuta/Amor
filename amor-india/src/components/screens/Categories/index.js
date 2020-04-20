@@ -5,50 +5,45 @@ import {
   TouchableOpacity,
   ImageBackground,
   View,
-  Text
+  Text,
 } from "react-native";
 import styles from "./styles";
 import SearchBarComponent from "../SearchBarComponent";
 import GeneralStatusBarColor from "../../components/GeneralStatusBarColor/GeneralStatusBarColor";
+import axios from "axios";
+import Loader from "../Loader";
+import { normalize } from "../../../../helper";
+import uuid from "uuid/v4";
 
 class MaleCategories extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [
-        {
-          name: "Tops",
-          img: require("../../../../assets/images/temp/categories/Tops.jpeg")
-        },
-        {
-          name: "Two Piece Dresses",
-          img: require("../../../../assets/images/temp/shirt.jpg")
-        },
-        {
-          name: "Formal & Casual Shirts",
-          img: require("../../../../assets/images/temp/saree.jpg")
-        },
-        {
-          name: "Long Dresses",
-          img: require("../../../../assets/images/temp/kurta.jpg")
-        },
-        {
-          name: "Short Dresses",
-          img: require("../../../../assets/images/temp/hoodie.jpg")
-        },
-        {
-          name: "Jumpsuits & Playsuits",
-          img: require("../../../../assets/images/temp/tshirt.jpg")
-        }
-      ],
-      url: null
+      categories: [],
+      url: null,
+      loading: true,
     };
   }
 
-  render() {
-    const { data, url } = this.state;
-    console.log("Url: ", url);
+  async componentDidMount() {
+    const categories = (await this.getCategories()) || [];
+    await this.setState({ categories });
+    await this.setState({ loading: false });
+  }
 
+  getCategories = async () => {
+    return await axios
+      .get(
+        "https://8h6jihqtuj.execute-api.ap-south-1.amazonaws.com/dev/v1/categories"
+      )
+      .then((result) => result.data.data.categories);
+  };
+
+  render() {
+    const { categories, loading } = this.state;
+    if (loading) {
+      return <Loader visible={loading}></Loader>;
+    }
     return (
       <SafeAreaView style={styles.container}>
         <GeneralStatusBarColor
@@ -57,41 +52,42 @@ class MaleCategories extends Component {
         />
         <SearchBarComponent />
         <FlatList
-          data={data}
+          data={categories}
+          key={uuid()}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
             <TouchableOpacity
               style={{
                 overflow: "hidden",
-                flex: 1
-                // shadowOpacity: 0.23,
-                // shadowRadius: 2.62,
-                // elevation: 4,
+                flex: 1,
               }}
               onPress={() =>
                 this.props.navigation.navigate("ProductList", {
-                  filterBy: item.name
+                  category: item.category_name,
                 })
               }
             >
               <ImageBackground
-                source={item.img}
+                source={{
+                  uri: `https://d182bv3lioi4mj.cloudfront.net${item.category_image_key}`,
+                  headers: { "Accept-Encoding": "gzip" },
+                }}
                 style={{
                   height: 200,
-                  resizeMode: "cover"
+                  resizeMode: "cover",
                 }}
               >
-                <View style={{ width: "90%", alignSelf: "auto" }}>
+                <View style={{ width: "95%", justifyContent: "center" }}>
                   <Text
                     style={{
-                      marginTop: "40%",
-                      marginLeft: 10,
-                      fontSize: 35,
+                      marginTop: "35%",
+                      marginLeft: 5,
+                      fontSize: normalize(25),
                       color: "#CDCDCD",
-                      fontWeight: "700"
+                      fontWeight: "700",
                     }}
                   >
-                    {item.name}
+                    {item.category_name}
                   </Text>
                 </View>
               </ImageBackground>

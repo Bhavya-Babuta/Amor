@@ -1,5 +1,4 @@
 import { createSwitchNavigator, createAppContainer } from "react-navigation";
-import AuthLoadingScreen from "./src/components/screens/AuthLoadingScreen";
 import AuthStack from "./src/components/navigation/AuthStack";
 import Amplify from "aws-amplify";
 import config from "./amplify-configure";
@@ -11,38 +10,39 @@ import reducer from "./reducers";
 import TabNav from "./src/components/navigation/TabNav";
 import * as Font from "expo-font";
 const store = createStore(reducer);
+
 Amplify.configure({
   Auth: {
     mandatorySignIn: true,
     region: config.cognito.REGION,
     userPoolId: config.cognito.USER_POOL_ID,
-    userPoolWebClientId: config.cognito.APP_CLIENT_ID
+    userPoolWebClientId: config.cognito.APP_CLIENT_ID,
   },
   API: {
     endpoints: [
       {
         name: "ecommerce-backend",
         endpoint: config.apiGateway.URL,
-        region: config.apiGateway.REGION
-      }
-    ]
-  }
+        region: config.apiGateway.REGION,
+      },
+    ],
+  },
 });
+
 let oldRender = Text.render;
-Text.render = function(...args) {
+Text.render = function (...args) {
   let origin = oldRender.call(this, ...args);
   return React.cloneElement(origin, {
     style: [
       { fontFamily: "AvenirNext-Medium", fontWeight: "300" },
-      origin.props.style
-    ]
+      origin.props.style,
+    ],
   });
 };
 
 const app = createSwitchNavigator({
-  AuthLoading: AuthLoadingScreen,
   AuthStack: AuthStack,
-  App: TabNav
+  App: TabNav,
 });
 
 let Navigation = createAppContainer(app);
@@ -51,15 +51,15 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      assetsLoaded: false
+      assetsLoaded: false,
     };
   }
   async componentDidMount() {
     await Font.loadAsync({
-      "AvenirNext-Medium": require("./assets/fonts/AvenirNext-Medium.ttf")
+      "AvenirNext-Medium": require("./assets/fonts/AvenirNext-Medium.ttf"),
     });
 
-    this.setState({ assetsLoaded: true });
+    await this.setState({ assetsLoaded: true });
   }
 
   render() {

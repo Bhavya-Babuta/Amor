@@ -5,74 +5,96 @@ import { constants } from "../../../../constants";
 import { bindActionCreators } from "redux";
 import { updateProductCartQuantity } from "./actions";
 import { connect } from "react-redux";
+import uuid from "uuid/v4";
 
 class CartList extends React.Component {
   constructor(props) {
     super(props);
-    console.log("this.props.cartProducts: ", this.props.cartProducts);
     this.state = {
-      cartProducts: this.props.cartProducts
+      cartProducts: props.cartProducts,
     };
   }
 
   static getDerivedStateFromProps(newProps, prevState) {
-    console.log("New Props: ", newProps);
     const { getSubTotal, cart } = newProps;
     getSubTotal(cart.currentValue);
     return newProps;
   }
 
-  incrementProductQuantity = value => {
-    this.props.updateProductCartQuantity(value, constants.TASKS.INCREMENT);
+  incrementProductQuantity = (value, selectedSize) => {
+    this.props.updateProductCartQuantity(
+      value,
+      selectedSize,
+      constants.TASKS.INCREMENT
+    );
   };
-  decrementProductQuantity = value => {
-    this.props.updateProductCartQuantity(value, constants.TASKS.DECREMENT);
+
+  decrementProductQuantity = (value, selectedSize) => {
+    this.props.updateProductCartQuantity(
+      value,
+      selectedSize,
+      constants.TASKS.DECREMENT
+    );
   };
+
   render() {
     const { cartProducts } = this.state;
     return (
       <FlatList
         data={cartProducts}
-        keyExtractor={(item, index) => item.id}
-        contentContainerStyle={{ marginBottom: 20 }}
+        key={uuid()}
         horizontal={true}
         renderItem={({ item }) => (
           <View style={styles.listItem}>
-            <Image
-              style={styles.image}
-              source={{
-                uri: item.img,
-                headers: { "Content-Encoding": "gzip" }
+            <View style={{ height: "72%" }}>
+              <Image
+                style={styles.image}
+                source={{
+                  uri: `https://d182bv3lioi4mj.cloudfront.net${item.img}`,
+                  headers: { "Accept-Encoding": "gzip" },
+                }}
+              />
+            </View>
+            <View
+              style={{
+                flexDirection: "column",
+                flex: 1,
+                justifyContent: "space-evenly",
               }}
-            />
-            <Text
-              style={styles.productName}
-            >{`${item.name} (${item.selectedSize})`}</Text>
-            <View style={styles.updateStack}>
-              <TouchableOpacity
-                style={[styles.updateButton, styles.radiusLeft]}
-                onPress={() => {
-                  this.decrementProductQuantity(item.id);
-                }}
-              >
-                <Text style={styles.updateButtonText}>-</Text>
-              </TouchableOpacity>
+            >
               <View
-                style={{
-                  width: 45,
-                  height: 30
-                }}
+                style={
+                  {
+                    // paddingTop: 8,
+                    // paddingRight: 10,
+                    // paddingLeft: 10,
+                    // paddingBottom: 5,
+                  }
+                }
               >
-                <Text style={styles.quantityText}>{item.quantity}</Text>
+                <Text
+                  style={styles.productName}
+                >{`${item.name} (${item.selectedSize})`}</Text>
               </View>
-              <TouchableOpacity
-                style={[styles.updateButton, styles.raduisRight]}
-                onPress={() => {
-                  this.incrementProductQuantity(item.id);
-                }}
-              >
-                <Text style={styles.updateButtonText}>+</Text>
-              </TouchableOpacity>
+              <View style={styles.updateStack}>
+                <TouchableOpacity
+                  style={[styles.updateButton, styles.radiusLeft]}
+                  onPress={() => {
+                    this.decrementProductQuantity(item.id, item.selectedSize);
+                  }}
+                >
+                  <Text style={styles.updateButtonText}>-</Text>
+                </TouchableOpacity>
+                <Text style={styles.quantityText}>{item.quantity}</Text>
+                <TouchableOpacity
+                  style={[styles.updateButton, styles.raduisRight]}
+                  onPress={() => {
+                    this.incrementProductQuantity(item.id, item.selectedSize);
+                  }}
+                >
+                  <Text style={styles.updateButtonText}>+</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         )}
@@ -81,14 +103,14 @@ class CartList extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return { cart: state.cart };
 };
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      updateProductCartQuantity
+      updateProductCartQuantity,
     },
     dispatch
   );

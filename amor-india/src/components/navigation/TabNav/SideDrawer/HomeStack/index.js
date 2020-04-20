@@ -3,17 +3,24 @@ import { createStackNavigator } from "react-navigation-stack";
 import Home from "../../../../screens/Home";
 import ProductPage from "../../../../screens/ProductPage";
 import ProductList from "../../../../screens/ProductList";
+import Loader from "../../../../screens/Loader";
 
-const Homes = createStackNavigator(
+const HomeStack = createStackNavigator(
   {
     Home: { screen: Home },
     ProductListHome: { screen: ProductList },
-    ProductPageHome: { screen: ProductPage }
+    ProductPageHome: { screen: ProductPage },
+    Loader: { screen: Loader },
   },
   {
-    headerMode: "none"
+    headerMode: "none",
+    defaultNavigationOptions: ({ navigation }) => ({
+      tabBarVisible: () => {
+        const { routeName } = navigation.state;
+        return routeName === "Loader" ? false : true;
+      },
+    }),
   }
 );
 
-const HomeStack = createAppContainer(Homes);
-export default HomeStack;
+export default createAppContainer(HomeStack);

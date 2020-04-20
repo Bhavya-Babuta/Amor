@@ -29,14 +29,11 @@ class NewPassword extends Component {
     const { passsword, confirmPassword } = this.state;
     const { navigation } = this.props;
     const user = navigation.getParam("user", null);
-    console.log(user);
     if (passsword === confirmPassword && user) {
-      console.log("Passowrd === confirmPassword");
       const loggedUser = await Auth.completeNewPassword(
         user, // the Cognito User Object
         passsword // the new password
       );
-      console.log("LoggedUser: ", loggedUser);
       if (!loggedUser.challengeName) {
         navigation.navigate("Login");
       }

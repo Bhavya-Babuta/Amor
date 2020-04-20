@@ -1,9 +1,6 @@
 import { constants } from "../../../../constants";
 
-export const addProductToCart = product => {
-  console.log("Adding to product: ", product);
-  return {
-    type: constants.CART.ADD_TO_CART,
-    payload: { product }
-  };
-};
+export const addProductToCart = product => ({
+  type: constants.CART.ADD_TO_CART,
+  payload: { product }
+});

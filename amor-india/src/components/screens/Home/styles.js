@@ -10,42 +10,29 @@ export default StyleSheet.create({
     borderRadius: 2,
     borderColor: "black",
     margin: 15,
-    marginLeft: 23
+    marginLeft: 23,
   },
   item: {
     flex: 1,
-    backgroundColor: "lightblue"
+    backgroundColor: "lightblue",
   },
   indicatorView: { flex: 1, justifyContent: "center", alignItems: "center" },
   indicatorText: { fontSize: 20 },
   container: {
     flex: 1,
     marginTop: Platform.OS === "android" ? 0 : -STATUSBAR_HEIGHT,
-    backgroundColor: "#ffffff"
+    backgroundColor: "#ffffff",
   },
   wrapper: { height: 210 },
   slide1: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#9DD6EB"
-  },
-  slide2: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#97CAE5"
-  },
-  slide3: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#92BBD9"
   },
   image: {
     width: "100%",
     height: 220,
-    resizeMode: "cover"
+    resizeMode: "cover",
   },
   header: {
     flexDirection: "row",
@@ -53,31 +40,31 @@ export default StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#ffffff",
     borderBottomColor: "#CDCDCD",
-    borderBottomWidth: 0.5
+    borderBottomWidth: 0.5,
   },
   icon: { paddingLeft: 10 },
   background: {
     resizeMode: "cover",
     overflow: "hidden",
     width: WIDTH * 0.85,
-    maxHeight: 50
+    maxHeight: 50,
   },
   headerText: {
     fontSize: 30,
-    marginLeft: WIDTH / 2 - 70
+    marginLeft: WIDTH / 2 - 70,
   },
   topText: {
     fontSize: normalize(20),
     marginTop: 20,
     marginLeft: 10,
     fontWeight: "300",
-    marginBottom: 15
+    marginBottom: 15,
   },
   highlightedProductsFlatlist: {},
   highlightedProductsFlatlistColumnWrapper: {
     flex: 1,
     width: WIDTH / 2 - 40,
-    marginLeft: 10
+    marginLeft: 10,
   },
   highlightedProducts: {
     backgroundColor: "#ffffff",
@@ -86,11 +73,11 @@ export default StyleSheet.create({
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
     elevation: 4,
-    margin: 13
+    margin: 13,
   },
   highlightedProductsImage: {
     height: WIDTH / 1.7,
-    width: WIDTH / 2.5
+    width: WIDTH / 2.5,
   },
   highlightedProductsName: { textAlign: "center", fontSize: 20 },
   featuredProductsScrollHorizontal: { flexDirection: "row" },
@@ -98,20 +85,19 @@ export default StyleSheet.create({
   ProductsHorizontalFlatlist: {
     marginLeft: 10,
     paddingTop: 20,
-    paddingRight: 25
+    paddingRight: 25,
   },
   horizontalProductListImage: { height: 150, width: 70 },
   horizontalProductListName: { textAlign: "center", fontSize: 15 },
   nameText: {
-    alignSelf: "center",
-    marginTop: "8%",
+    marginTop: "5%",
     fontSize: normalize(10),
-    fontWeight: "500"
+    fontWeight: "500",
   },
   priceText: {
     alignSelf: "center",
-    marginTop: "8%",
+    marginTop: "5%",
     fontSize: normalize(10),
-    fontWeight: "500"
-  }
+    fontWeight: "500",
+  },
 });

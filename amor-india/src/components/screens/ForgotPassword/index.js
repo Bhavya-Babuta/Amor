@@ -2,18 +2,14 @@ import React, { Component } from "react";
 import {
   View,
   Text,
-  StyleSheet,
-  ImageBackground,
-  Image,
   TextInput,
-  Platform,
   SafeAreaView,
-  Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  KeyboardAvoidingView,
 } from "react-native";
 import { Auth } from "aws-amplify";
 import styles from "./styles";
-
+import { normalize } from "../../../../helper";
 class ForgotPassword extends Component {
   constructor(props) {
     super(props);
@@ -23,22 +19,22 @@ class ForgotPassword extends Component {
       code: "",
       confirmationCode: false,
       error: "",
-      cPassword: ""
+      cPassword: "",
     };
   }
-  setEmail = value => {
+  setEmail = (value) => {
     this.setState({ email: value });
   };
 
-  setPassword = value => {
+  setPassword = (value) => {
     this.setState({ newPassword: value });
   };
 
-  setConfirmPassword = value => {
+  setConfirmPassword = (value) => {
     this.setState({ cPassword: value });
   };
 
-  setCode = value => {
+  setCode = (value) => {
     this.setState({ code: value });
   };
 
@@ -48,7 +44,7 @@ class ForgotPassword extends Component {
       email,
       code,
       newPassword,
-      cPassword
+      cPassword,
     } = this.state;
     if (confirmationCode) {
       return (
@@ -109,13 +105,12 @@ class ForgotPassword extends Component {
       email,
       cPassword,
       newPassword,
-      code
+      code,
     } = this.state;
     if (email && !confirmationCode) {
       try {
-        const forgotPassword = await Auth.forgotPassword(email);
+        await Auth.forgotPassword(email);
         this.setState({ confirmationCode: true });
-        console.log("Forgot Password: ", forgotPassword);
       } catch (error) {
         console.log("Error in 1: ", error);
       }
@@ -129,42 +124,36 @@ class ForgotPassword extends Component {
       code &&
       newPassword === cPassword
     ) {
-      console.log("Final Submit");
-      const forgotPasswordResult = await Auth.forgotPasswordSubmit(
-        email,
-        code,
-        newPassword
-      );
-      console.log("Forgot Password Result: ", forgotPasswordResult);
+      await Auth.forgotPasswordSubmit(email, code, newPassword);
     }
   };
   render() {
     return (
-      <SafeAreaView style={styles.container}>
-        <View
-          style={{
-            flex: 2,
-            alignSelf: "flex-start",
-            marginTop: 70,
-            marginLeft: 40,
-            marginBottom: 18
-          }}
-        >
-          <Text style={{ fontSize: 70, color: "white", fontWeight: "200" }}>
-            Forgot {"\n"}Password
-          </Text>
-        </View>
-        {this.handleFieldRender()}
-        <View style={styles.buttonView}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={this.handleConfirmPasswordSubmit}
-          >
-            <Text style={styles.buttonText}>Reset Password</Text>
-          </TouchableOpacity>
-        </View>
-        {/* </KeyboardAvoidingView> */}
-      </SafeAreaView>
+      <KeyboardAvoidingView style={styles.container}>
+        <SafeAreaView>
+          <View style={{}}>
+            <Text
+              style={{
+                fontSize: normalize(45),
+                color: "white",
+                fontWeight: "200",
+                marginTop: 50,
+              }}
+            >
+              Forgot {"\n"}Password
+            </Text>
+          </View>
+          {this.handleFieldRender()}
+          <View style={styles.buttonView}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={this.handleConfirmPasswordSubmit}
+            >
+              <Text style={styles.buttonText}>Reset Password</Text>
+            </TouchableOpacity>
+          </View>
+        </SafeAreaView>
+      </KeyboardAvoidingView>
     );
   }
 }

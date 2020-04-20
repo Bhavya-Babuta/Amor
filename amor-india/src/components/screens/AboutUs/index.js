@@ -1,16 +1,5 @@
 import React, { Component } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  SafeAreaView,
-  Image,
-  TextInput,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Button,
-  Linking
-} from "react-native";
+import { View, Text, SafeAreaView, Image } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import styles from "./styles";
 import GeneralStatusBarColor from "../../components/GeneralStatusBarColor/GeneralStatusBarColor";
@@ -42,21 +31,15 @@ class AboutUs extends Component {
         </View>
         <View style={{ marginTop: 10 }}>
           <Text style={styles.aboutUsMessage}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply
-            dummy text of the printing and typesetting industry. Lorem Ipsum has
-            been the industry's standard dummy text ever since the 1500s, when
-            an unknown printer took a galley of type and scrambled it to make a
-            type specimen book. It has survived not only five centuries, but
-            also the leap into electronic typesetting, remaining essentially
-            unchanged.
+            Amor, a state-of-the-art company, is a new creation that aims to
+            make 2020 the year that sees fashion with a completely new
+            perspective.It offers a wide range of outfits designed for women
+            that adds to their panache. Amor is an epitome of grandeur, a brand
+            that will set new standards in clothing with its exclusive chic
+            apparel. It offers a progressive, flamboyant collection of clothes
+            with appealing designs and quality that won't disappoint. So, buckle
+            up, all fashion afficianados, it's time to modernise your wardrobe
+            with Amor.
           </Text>
         </View>
       </SafeAreaView>

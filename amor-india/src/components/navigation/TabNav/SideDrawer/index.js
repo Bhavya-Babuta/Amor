@@ -1,38 +1,45 @@
+import React from "react";
+import {
+  SafeAreaView,
+  View,
+  ScrollView,
+  Image,
+  Text,
+  Dimensions,
+  Platform,
+} from "react-native";
 import { createAppContainer } from "react-navigation";
-import { createDrawerNavigator } from "react-navigation-drawer";
+import { createDrawerNavigator, DrawerItems } from "react-navigation-drawer";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { normalize } from "react-native-elements";
 import HomeStack from "./HomeStack";
-import Account from "../../../screens/Account";
 import AboutUs from "../../../screens/AboutUs";
 import ContactUs from "../../../screens/ContactUs";
 import Feedback from "../../../screens/Feedback";
-import React from "react";
-import { SafeAreaView, View, ScrollView, Image, Text } from "react-native";
-import { DrawerItems } from "react-navigation-drawer";
-import { Dimensions, Platform } from "react-native";
+import OrderStack from "../OrderStack";
+
 const width = Dimensions.get("window").width;
-import Icon from "react-native-vector-icons/FontAwesome";
-import { normalize } from "react-native-elements";
 
 const SideDrawer = createDrawerNavigator(
   {
     Home: { screen: HomeStack },
-    "My Orders": { screen: Account },
+    "My Orders": { screen: OrderStack },
     Feedback: { screen: Feedback },
     "About Amor": { screen: AboutUs },
     "Contact Us": { screen: ContactUs },
-    "Terms and Conditions": { screen: Account }
+    "Terms and Conditions": { screen: OrderStack },
   },
   {
     drawerType: "slide",
     navigationOptions: ({ navigation }) => {
       drawerIcon: ({ tintColor }) => <Icon name="md-menu" size={30} />;
     },
-    contentComponent: props => (
+    contentComponent: (props) => (
       <SafeAreaView
         style={{
           alignItems: "center",
           marginTop: Platform.OS === "android" ? 30 : 0,
-          flex: 1
+          flex: 1,
         }}
       >
         <View
@@ -40,7 +47,7 @@ const SideDrawer = createDrawerNavigator(
             height: 140,
             alignItems: "center",
             justifyContent: "center",
-            width: "100%"
+            width: "100%",
           }}
         >
           <Image
@@ -59,7 +66,7 @@ const SideDrawer = createDrawerNavigator(
           </View>
         </ScrollView>
       </SafeAreaView>
-    )
+    ),
   }
 );
 

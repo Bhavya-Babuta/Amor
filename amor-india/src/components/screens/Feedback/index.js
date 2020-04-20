@@ -7,7 +7,7 @@ import {
   Image,
   TextInput,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import styles from "./styles";
@@ -17,11 +17,11 @@ class Feedback extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      input: ""
+      input: "",
     };
   }
 
-  handleUserFeedback = input => {
+  handleUserFeedback = (input) => {
     this.setState({ input });
   };
   render() {
@@ -45,28 +45,20 @@ class Feedback extends Component {
           ></Image>
         </View>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={{ width: "100%" }}>
+          <View style={{ width: "90%", alignSelf: "center" }}>
             <Text style={{ fontSize: 25, marginTop: 20, alignSelf: "center" }}>
               We value your feedback
             </Text>
-            <Text
-              style={{
-                marginTop: 30,
-                fontSize: 20,
-                color: "#000000",
-                alignSelf: "center"
-              }}
-            >
+            <Text style={styles.textAboveInput}>
               Please give in your thoughts and we shall get back to you as soon
               as possible
             </Text>
 
             <TextInput
-              style={[styles.inputField, styles.inputFieldMargin]}
+              style={[styles.inputField]}
               value={input}
               onChangeText={this.handleUserFeedback}
               multiline={true}
-              // underlineColorAndroid="transparent"
               placeholder="Tell us what you think?"
               style={styles.inputField}
               keyboardType="email-address"
@@ -74,16 +66,16 @@ class Feedback extends Component {
             />
           </View>
         </TouchableWithoutFeedback>
-        <View style={{ marginTop: 50 }}>
+        <View style={{ marginTop: 60 }}>
           <TouchableOpacity
             style={{
               borderWidth: 2,
               borderColor: "black",
               width: "40%",
-              alignSelf: "center"
+              alignSelf: "center",
             }}
           >
-            <Text style={{ padding: 20, alignSelf: "center" }}>
+            <Text style={{ padding: 15, alignSelf: "center" }}>
               Submit Feedback
             </Text>
           </TouchableOpacity>

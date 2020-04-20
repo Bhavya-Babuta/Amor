@@ -18,9 +18,6 @@ provider:
   runtime: nodejs10.x
   stage: ${opt:stage, 'dev'}
   region: ${env:LAMBDA_REGION}
-  # environment:
-  #   MONGO_URL: ${env:MONGO_URL}
-  #   MONGO_DBNAME: ${env:MONGO_DBNAME}
   apiGateway:
     binaryMediaTypes:
       - "multipart/form-data"
@@ -37,7 +34,6 @@ plugins:
   - serverless-api-gateway-caching
 
 custom:
-  # Enable or disable caching globally
   apiGatewayCaching:
     enabled: true
 
@@ -56,6 +52,27 @@ functions:
           path: /v1/categories
           method: get
           caching: true
+
+  homebanner:
+    handler: handler.homeBanner
+    events:
+      - http:
+          path: /v1/home/banner
+          method: get
+          caching: true
+
+  previousorders:
+    handler: handler.previousOrders
+    events:
+      - http:
+          path: /v1/orders/{id}
+          method: get
+          caching: false
+          request:
+            parameters:
+              paths:
+                url: true
+                id: true
 
 distribution:
   component: "@serverless/aws-cloudfront"

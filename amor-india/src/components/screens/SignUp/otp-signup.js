@@ -61,7 +61,6 @@ class OtpSignup extends Component {
                     forceAliasCreation: true
                   }
                 );
-                console.log("Confirm: ", confirmSignupResult);
                 if (confirmSignupResult === "SUCCESS") {
                   this.props.navigation.navigate("Login");
                 }

@@ -9,21 +9,21 @@ export default StyleSheet.create({
     width: width * 2.0,
     resizeMode: "cover",
     overflow: "hidden",
-    flex: 2.5
+    flex: 2.5,
   },
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "space-around",
-    marginTop: Platform.OS === "android" ? 0 : 0,
-    backgroundColor: "#000000"
+    backgroundColor: "#000000",
   },
   logo: {
     width: 150,
-    height: 150
+    height: 150,
   },
-  inputView: {
-    flex: 5
+  inputView: { marginTop: Platform.OS === "android" ? 30 : 30 },
+  inputViewKeyBoard: {
+    marginTop: Platform.OS === "android" ? 30 : 30,
+    flex: 4,
   },
   email: {
     backgroundColor: "white",
@@ -33,7 +33,7 @@ export default StyleSheet.create({
     marginBottom: 20,
     borderRadius: 5,
     fontFamily: "AvenirNext-Medium",
-    fontSize: normalize(10)
+    fontSize: normalize(10),
   },
   password: {
     backgroundColor: "white",
@@ -43,12 +43,12 @@ export default StyleSheet.create({
     borderRadius: 5,
     // opacity:0.3,
     fontFamily: "AvenirNext-Medium",
-    fontSize: normalize(10)
+    fontSize: normalize(10),
   },
   buttons: {
     flex: 1,
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
   },
   // signup: {
   //   flex: 1,
@@ -61,36 +61,41 @@ export default StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     borderColor: "#ffffff",
-    borderWidth: 2
+    borderWidth: 2,
   },
   loginButtonText: {
     textAlign: "center",
-    fontSize: 20,
-    color: "#ffffff"
+    fontSize: normalize(15),
+    color: "#ffffff",
   },
   forgotPasswordButton: {
     marginTop: 20,
-    marginBottom: 25
+    marginBottom: 25,
   },
   forgotPasswordButtonText: {
     textAlign: "center",
     color: "#ffffff",
-    fontSize: 20,
+    fontSize: normalize(15),
     fontFamily: "AvenirNext-Medium",
-    fontWeight: "300"
+    fontWeight: "300",
   },
   newAccountButton: {
     width: width * 0.6,
     backgroundColor: "#000000",
     // padding: 10,
-    marginTop: 30
+    marginTop: 30,
   },
   newAccountButtonText: {
     textAlign: "center",
     color: "#ffffff",
     fontSize: normalize(15),
-    textDecorationColor: "white"
+    textDecorationColor: "white",
   },
   mainText: defaultStyles.mainText,
-  mainTextContainer: defaultStyles.mainTextContainer
+  mainTextContainer: defaultStyles.mainTextContainer,
+  mainTextContainerMargin: defaultStyles.mainTextContainerMargin,
+  mainTextContainerMarginKeyBoard: {
+    marginTop: Platform.OS === "android" ? 40 : 30,
+    flex: Platform.OS === "android" ? 0.8 : 0.5,
+  },
 });

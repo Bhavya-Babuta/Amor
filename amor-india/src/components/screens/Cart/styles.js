@@ -7,16 +7,16 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     marginTop: Platform.OS === "android" ? 0 : -STATUSBAR_HEIGHT,
-    backgroundColor: "#D0E0DD"
+    backgroundColor: "#D0E0DD",
   },
-  cartList: { marginLeft: 10, flex: 5, marginTop: 20 },
+  cartList: { marginLeft: 10, height: "36.5%", marginTop: 20 },
   summary: {
-    flex: 3,
+    height: "80%",
     marginLeft: 30,
     marginRight: 30,
     marginBottom: 30,
     borderRadius: 10,
-    marginTop: 10
+    marginTop: 10,
   },
   proceedButton: {
     alignSelf: "center",
@@ -25,9 +25,9 @@ export default StyleSheet.create({
     width: "95%",
     alignItems: "center",
     paddingBottom: 13,
-    paddingTop: 13
+    paddingTop: 13,
   },
   proceedText: {
-    fontSize: normalize(12)
-  }
+    fontSize: normalize(12),
+  },
 });
